@@ -168,6 +168,7 @@ const InvoiceDetailsSchema = z.object({
     signature: SignatureSchema.optional(),
     updatedAt: fieldValidators.stringOptional,
     pdfTemplate: z.number(),
+    airwaybillNumber: fieldValidators.stringOptional,
 });
 
 const InvoiceSchema = z.object({

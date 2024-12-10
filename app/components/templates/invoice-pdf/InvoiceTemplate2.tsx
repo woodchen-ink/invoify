@@ -30,11 +30,11 @@ const InvoiceTemplate = (data: InvoiceType) => {
                     <h1 className="mt-2 text-normal md:text-xl font-semibold text-blue-600">
                         {sender.companyName}
                     </h1>
-                    <p className="text-gray-500">{sender.individualName}</p>
-                    <p className="text-sm font-medium text-gray-800">
+                    <p className="text-gray-800 font-medium">{sender.individualName}</p>
+                    <p className="text-sm  text-gray-500">
                         {sender.email}
                     </p>
-                    <p className="text-sm font-medium text-gray-800">
+                    <p className="text-sm  text-gray-500">
                         {sender.phone}
                     </p>
                 </div>
@@ -131,10 +131,10 @@ const InvoiceTemplate = (data: InvoiceType) => {
                             Qty
                         </div>
                         <div className="text-left text-xs font-medium text-gray-500 uppercase">
-                            Rate
+                            Unit Value
                         </div>
                         <div className="text-right text-xs font-medium text-gray-500 uppercase">
-                            Amount
+                            Total Value
                         </div>
 
                     </div>
@@ -172,7 +172,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
                     <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
                         <dl className="grid sm:grid-cols-5 gap-x-3">
                             <dt className="col-span-3 font-semibold text-gray-800">
-                                Subtotal:
+                                Total Declared Value:
                             </dt>
                             <dd className="col-span-2 text-gray-500">
                                 {formatNumberWithCommas(
@@ -298,13 +298,14 @@ const InvoiceTemplate = (data: InvoiceType) => {
                             </span>
                         </div>
                     )}
+                    <p className="text-sm text-gray-500 mt-4">I/We hereby certify that the information of this invoice is true and correct and that the contents of this shipment are as stated above.</p>
                 </div>
             </div>
 
             {/* Signature */}
             {details?.signature?.data && isDataUrl(details?.signature?.data) ? (
-                <div className="mt-6">
-                    <p className="font-semibold text-gray-800">Signature:</p>
+                <div className="mt-6 flex flex-row items-center">
+                    <p className="font-semibold text-gray-800 mr-2">Signature:</p>
                     <img
                         src={details.signature.data}
                         width={120}
@@ -313,8 +314,8 @@ const InvoiceTemplate = (data: InvoiceType) => {
                     />
                 </div>
             ) : details.signature?.data ? (
-                <div className="mt-6">
-                    <p className="text-gray-800">Signature:</p>
+                <div className="mt-6 flex flex-row items-center">
+                    <p className="text-gray-800 mr-2">Signature:</p>
                     <p
                         style={{
                             fontSize: 30,
@@ -327,6 +328,12 @@ const InvoiceTemplate = (data: InvoiceType) => {
                     </p>
                 </div>
             ) : null}
+            {sender.companyName && (
+                <div className="mt-8 flex flex-row">
+                    <p className="font-semibold text-gray-800 mr-2">Name of Company: </p>
+                    <p className="font-normal text-gray-500">{sender.companyName}</p>
+                </div>
+            )}
         </InvoiceLayout>
     );
 };
