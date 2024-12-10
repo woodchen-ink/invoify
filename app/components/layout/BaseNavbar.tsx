@@ -11,7 +11,7 @@ const logoUrl = "https://i.czl.net/r2/2023/06/20/6491692758187.png";
 import { Card } from "@/components/ui/card";
 
 // Components
-import { DevDebug, LanguageSelector, ThemeSwitcher } from "@/app/components";
+import { LanguageSelector, ThemeSwitcher } from "@/app/components";
 
 const BaseNavbar = () => {
     const devEnv = useMemo(() => {
@@ -35,7 +35,7 @@ const BaseNavbar = () => {
                         <h1 className="text-2xl font-bold">CZL Express 国际运输发票生成器</h1>
                     </div>
                     {/* ? DEV Only */}
-                    {devEnv && <DevDebug />}
+                    {/* {devEnv && <DevDebug />} */}
                     <LanguageSelector />
                     <ThemeSwitcher />
                 </Card>

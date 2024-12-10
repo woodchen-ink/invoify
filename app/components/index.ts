@@ -95,7 +95,6 @@ import SendPdfEmail from "./templates/email/SendPdfEmail";
 /* =========================
    ? DEV ONLY
    ========================= */
-import DevDebug from "./dev/DevDebug";
 
 export {
     BaseNavbar,
@@ -145,5 +144,4 @@ export {
     InvoiceTemplate1,
     InvoiceTemplate2,
     SendPdfEmail,
-    DevDebug,
 };
