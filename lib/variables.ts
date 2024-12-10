@@ -9,7 +9,7 @@ export const ENV = process.env.NODE_ENV;
 /**
  * Websites
  */
-export const BASE_URL = "https://invoify-exp.czl.net";
+export const BASE_URL = "https://exp-invoify.czl.net";
 
 /**
  * API endpoints
