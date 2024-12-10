@@ -16,7 +16,7 @@ import { useInvoiceContext } from "@/contexts/InvoiceContext";
 import { InvoiceType } from "@/types";
 
 const InvoiceMain = () => {
-    const { handleSubmit } = useFormContext<InvoiceType>();
+    const { handleSubmit, getValues } = useFormContext<InvoiceType>();
 
     // Get the needed values from invoice context
     const { onFormSubmit } = useInvoiceContext();
@@ -25,9 +25,11 @@ const InvoiceMain = () => {
         <>
             <Form {...useFormContext<InvoiceType>()}>
                 <form
-                    onSubmit={handleSubmit(onFormSubmit, (err) => {
-                        console.log(err);
-                    })}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        const formData = getValues();
+                        onFormSubmit(formData);
+                    }}
                 >
                     <div className="flex flex-wrap">
                         <InvoiceForm />

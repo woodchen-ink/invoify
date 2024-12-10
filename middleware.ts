@@ -1,14 +1,14 @@
 import createMiddleware from "next-intl/middleware";
 
 // Variables
-import { LOCALES, DEFAULT_LOCALE } from "@/lib/variables";
+import { LOCALES } from "@/lib/variables";
 
 export default createMiddleware({
     // A list of all locales that are supported
     locales: LOCALES.map((locale) => locale.code),
 
     // If this locale is matched, pathnames work without a prefix (e.g. `/about` instead of `/en/about`)
-    defaultLocale: DEFAULT_LOCALE,
+    defaultLocale: "zh",
 });
 
 export const config = {

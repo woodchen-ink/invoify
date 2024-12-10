@@ -30,7 +30,7 @@ const defaultChargesContext = {
     setTaxType: (newValue: SetStateAction<string>) => {},
     shippingType: "amount",
     setShippingType: (newValue: SetStateAction<string>) => {},
-    totalInWordsSwitch: true,
+    totalInWordsSwitch: false, // 是否包含大写金额
     setTotalInWordsSwitch: (newValue: boolean) => {},
     currency: "USD",
     subTotal: 0,
@@ -93,7 +93,7 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
 
     // ? Old approach of using totalInWords variable
     // totalInWords ? true : false
-    const [totalInWordsSwitch, setTotalInWordsSwitch] = useState<boolean>(true);
+    const [totalInWordsSwitch, setTotalInWordsSwitch] = useState<boolean>(false);
 
     // Initial subtotal and total
     const [subTotal, setSubTotal] = useState<number>(0);

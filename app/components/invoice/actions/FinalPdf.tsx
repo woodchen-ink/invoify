@@ -32,7 +32,7 @@ export default function FinalPdf() {
 
     return (
         <>
-            <Subheading>Final PDF:</Subheading>
+            <Subheading>最终PDF:</Subheading>
             <div className="flex items-center mb-3">
                 <BaseButton
                     variant={"ghost"}
@@ -40,59 +40,59 @@ export default function FinalPdf() {
                     onClick={removeFinalPdf}
                 >
                     <MoveLeft className="w-5 h-5" />
-                    Back to Live Preview
+                    返回实时预览
                 </BaseButton>
             </div>
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-2 my-1">
                 <BaseButton
-                    tooltipLabel="Preview invoice in new tab"
+                    tooltipLabel="在新标签页中预览发票"
                     onClick={previewPdfInTab}
                     size="sm"
                     variant={"outline"}
                 >
                     <Eye className="w-5 h-5" />
-                    Preview
+                    预览
                 </BaseButton>
                 <BaseButton
-                    tooltipLabel="Download invoice PDF"
+                    tooltipLabel="下载发票PDF"
                     onClick={downloadPdf}
                     size="sm"
                     variant={"outline"}
                 >
                     <DownloadCloudIcon className="w-5 h-5" />
-                    Download
+                    下载
                 </BaseButton>
 
                 <BaseButton
-                    tooltipLabel="Print invoice"
+                    tooltipLabel="打印发票"
                     onClick={printPdf}
                     size="sm"
                     variant={"outline"}
                 >
                     <Printer className="w-5 h-5" />
-                    Print
+                    打印
                 </BaseButton>
 
                 <BaseButton
-                    tooltipLabel="Save invoice in website"
+                    tooltipLabel="保存发票到网站"
                     onClick={saveInvoice}
                     size="sm"
                     variant={"outline"}
                 >
                     <BookmarkIcon className="w-5 h-5" />
-                    Save
+                    保存
                 </BaseButton>
 
                 <SendPdfToEmailModal sendPdfToMail={sendPdfToMail}>
                     <BaseButton
-                        tooltipLabel="Send invoice PDF to mail"
+                        tooltipLabel="发送发票PDF到邮箱"
                         size="sm"
                         variant={"outline"}
                     >
                         <Mail className="w-5 h-5" />
-                        Send to mail
+                        发送到邮箱
                     </BaseButton>
                 </SendPdfToEmailModal>
             </div>

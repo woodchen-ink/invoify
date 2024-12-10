@@ -12,20 +12,16 @@ export const ROOTKEYWORDS = [
 export const JSONLD = {
     "@context": "https://schema.org",
     "@type": "Website",
-    name: "Invoify",
-    description: "An Invoice Generator Web App",
+    name: "免费国际运输发票生成器 | CZL Express",
+    description: "CZL Express 提供免费的国际运输发票生成工具。轻松创建专业的物流单据，支持多种语言，适用于国际货运、快递和物流服务。简单快捷地生成标准化运输发票，提高您的业务效率。",
     keywords: ROOTKEYWORDS,
     url: BASE_URL,
-    image: "https://invoify.vercel.app/_next/static/media/invoify-logo.7ef8fa33.svg",
+    image: "https://i.czl.net/r2/2023/06/20/649169283f20c.png",
     mainEntityOfPage: {
         "@type": "WebPage",
         "@id": `${BASE_URL}/#website`,
     },
-    author: {
-        "@type": "Person",
-        name: "Ali Abbasov",
-        url: AUTHOR_WEBSITE,
-    },
+    
     "@graph": [
         {
             "@type": "WebSite",

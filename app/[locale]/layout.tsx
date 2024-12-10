@@ -35,9 +35,9 @@ import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
 import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from "@/lib/variables";
 
 export const metadata: Metadata = {
-    title: "Invoify | Free Invoice Generator",
+    title: "免费国际运输发票生成器 | CZL Express",
     description:
-        "Create invoices effortlessly with Invoify, the free invoice generator. Try it now!",
+        "CZL Express 提供免费的国际运输发票生成工具。轻松创建专业的物流单据，支持多种语言，适用于国际货运、快递和物流服务。简单快捷地生成标准化运输发票，提高您的业务效率。",
     icons: [{ rel: "icon", url: Favicon.src }],
     keywords: ROOTKEYWORDS,
     viewport: "width=device-width, initial-scale=1",
@@ -47,10 +47,6 @@ export const metadata: Metadata = {
     },
     alternates: {
         canonical: BASE_URL,
-    },
-    authors: {
-        name: "Ali Abbasov",
-        url: "https://aliabb.vercel.app",
     },
     verification: {
         google: GOOGLE_SC_VERIFICATION,
@@ -99,8 +95,6 @@ export default async function LocaleLayout({
                         {/* Toast component */}
                         <Toaster />
 
-                        {/* Vercel analytics */}
-                        <Analytics />
                     </Providers>
                 </NextIntlClientProvider>
             </body>

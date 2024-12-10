@@ -21,9 +21,6 @@ import {
     InvoiceTemplate2,
 } from "@/app/components";
 
-// Template images
-import template1 from "@/public/assets/img/invoice-1-example.png";
-
 // Icons
 import { Check } from "lucide-react";
 
@@ -36,30 +33,30 @@ const TemplateSelector = () => {
     const templates = [
         {
             id: 1,
-            name: "Template 1",
-            description: "Template 1 description",
-            img: template1,
+            name: "形式发票",
+            description: "形式发票描述",
+            img: "https://i-aws.czl.net/oracle/img/2024/12/67582d42bc805.png",
             component: <InvoiceTemplate1 {...formValues} />,
         },
         {
             id: 2,
-            name: "Template 2",
-            description: "Second template",
-            img: template1,
+            name: "商业发票",
+            description: "商业发票描述",
+            img: "https://i-aws.czl.net/oracle/img/2024/12/67582e487c917.png",
             component: <InvoiceTemplate2 {...formValues} />,
         },
     ];
     return (
         <>
             <div>
-                <Label>Choose Invoice Template:</Label>
+                <Label>选择发票模板:</Label>
 
                 <div>
                     <Card>
                         <CardHeader>
-                            Templates
+                            模板
                             <CardDescription>
-                                Select one of the predefined templates
+                                选择预定义模板
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="">
@@ -83,7 +80,6 @@ const TemplateSelector = () => {
                                                 alt={template.name}
                                                 width={300}
                                                 height={700}
-                                                placeholder="blur"
                                                 className="cursor-pointer rounded-lg border-2 hover:border-blue-600"
                                                 onClick={() =>
                                                     setValue(
@@ -103,7 +99,7 @@ const TemplateSelector = () => {
                                                 )
                                             }
                                         >
-                                            Select
+                                            选择
                                         </BaseButton>
                                     </div>
                                 ))}

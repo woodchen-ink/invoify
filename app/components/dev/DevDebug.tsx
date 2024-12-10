@@ -31,8 +31,8 @@ const DevDebug = ({}: DevDebugProps) => {
             </div>
 
             <div className="flex flex-col">
-                <Link href={`/template/1`}>Template 1</Link>
-                <Link href={`/template/2`}>Template 2</Link>
+                <Link href={`/template/1`}>模板1</Link>
+                <Link href={`/template/2`}>模板2</Link>
             </div>
         </div>
     );

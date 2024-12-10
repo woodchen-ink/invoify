@@ -53,6 +53,12 @@ const InvoiceDetails = () => {
                         label={_t("form.steps.invoiceDetails.currency")}
                         placeholder="Select Currency"
                     />
+
+                    <FormInput
+                        name="details.airwaybillNumber"
+                        label={_t("form.steps.invoiceDetails.airwaybillNumber")}
+                        placeholder="Airwaybill Number"
+                    />
                 </div>
 
                 <div className="flex flex-col gap-2">

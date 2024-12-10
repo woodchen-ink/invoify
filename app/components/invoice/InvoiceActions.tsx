@@ -30,8 +30,8 @@ const InvoiceActions = () => {
         <div className={`xl:w-[45%]`}>
             <Card className="h-auto sticky top-0 px-2">
                 <CardHeader>
-                    <CardTitle>ACTIONS</CardTitle>
-                    <CardDescription>Operations and preview</CardDescription>
+                    <CardTitle>操作</CardTitle>
+                    <CardDescription>操作与预览</CardDescription>
                 </CardHeader>
 
                 <div className="flex flex-col flex-wrap items-center gap-2">
@@ -44,7 +44,7 @@ const InvoiceActions = () => {
                                 disabled={invoicePdfLoading}
                             >
                                 <FolderUp />
-                                Load Invoice
+                                加载发票
                             </BaseButton>
                         </InvoiceLoaderModal>
 
@@ -56,7 +56,7 @@ const InvoiceActions = () => {
                                 disabled={invoicePdfLoading}
                             >
                                 <Import />
-                                Export Invoice
+                                导出发票
                             </BaseButton>
                         </InvoiceExportModal>
                     </div>
@@ -70,7 +70,7 @@ const InvoiceActions = () => {
                                 disabled={invoicePdfLoading}
                             >
                                 <Plus />
-                                New Invoice
+                                新发票
                             </BaseButton>
                         </NewInvoiceAlert>
 
@@ -82,7 +82,7 @@ const InvoiceActions = () => {
                             loadingText="Generating your invoice"
                         >
                             <FileInput />
-                            Generate PDF
+                            生成PDF
                         </BaseButton>
                     </div>
 

@@ -1,13 +1,13 @@
 {
     "form": {
-        "title": "Invoice",
+        "title": "Invoice Generator",
         "description": "Generate Invoice",
         "newInvBadge": "New Invoice",
         "wizard": {
-            "fromAndTo": "From & To",
+            "fromAndTo": "Invoice Information",
             "invoiceDetails": "Invoice Details",
             "lineItems": "Line Items",
-            "paymentInfo": "Payment Info",
+            "paymentInfo": "Payment Information",
             "summary": "Summary",
             "next": "Next",
             "back": "Back"
@@ -17,8 +17,10 @@
                 "billFrom": "Bill From",
                 "billTo": "Bill To",
                 "name": "Name",
+                "companyName": "Company Name",
+                "individualName": "Individual Name",
                 "address": "Address",
-                "zipCode": "Zip",
+                "zipCode": "Zip Code",
                 "city": "City",
                 "country": "Country",
                 "email": "Email",
@@ -34,20 +36,22 @@
                     "placeholder": "Click to upload image"
                 },
                 "invoiceNumber": "Invoice Number",
-                "issuedDate": "Issue Date",
+                "issuedDate": "Issued Date",
                 "dueDate": "Due Date",
-                "currency": "Currency"
+                "currency": "Currency",
+                "airwaybillNumber": "Airwaybill Number"
             },
             "lineItems": {
-                "heading": "Items",
+                "heading": "Line Items",
                 "item": "Item",
                 "name": "Name",
                 "quantity": "Quantity",
                 "rate": "Rate",
                 "total": "Total",
+                "hsCode": "HS Code",
                 "description": "Description",
-                "addNewItem": "Add a new item",
-                "removeItem": "Remove item"
+                "addNewItem": "Add New Item",
+                "removeItem": "Remove Item"
             },
             "paymentInfo": {
                 "heading": "Payment Information",
@@ -66,10 +70,12 @@
                 },
                 "additionalNotes": "Additional Notes",
                 "paymentTerms": "Payment Terms",
+                "typeOfExport": "Type of Export",
+                "incoterm": "Incoterm",
                 "discount": "Discount",
                 "tax": "Tax",
                 "shipping": "Shipping",
-                "subTotal": "Subtotal",
+                "subTotal": "Sub Total",
                 "totalAmount": "Total Amount",
                 "includeTotalInWords": "Include Total in Words?",
                 "yes": "Yes",
@@ -79,14 +85,14 @@
     },
     "actions": {
         "title": "Actions",
-        "description": "Operations and preview",
+        "description": "Actions and Preview",
         "loadInvoice": "Load Invoice",
         "exportInvoice": "Export Invoice",
         "newInvoice": "New Invoice",
         "generatePdf": "Generate PDF",
-        "pdfView": "PDF View"
+        "pdfView": "PDF Preview"
     },
     "footer": {
         "developedBy": "Developed by"
     }
-}
+} 

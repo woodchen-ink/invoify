@@ -160,7 +160,7 @@ const SingleItem = ({
                 <FormInput
                     name={`${name}[${index}].name`}
                     label={_t("form.steps.lineItems.name")}
-                    placeholder="Item name"
+                    placeholder="请输入项目名称"
                     vertical
                 />
 
@@ -183,6 +183,14 @@ const SingleItem = ({
                     vertical
                 />
 
+                <FormInput
+                    name={`${name}[${index}].hsCode`}
+                    label={_t("form.steps.lineItems.hsCode")}
+                    placeholder="请输入HS编码"
+                    className="w-[8rem]"
+                    vertical
+                />
+
                 <div className="flex flex-col gap-2">
                     <div>
                         <Label>{_t("form.steps.lineItems.total")}</Label>
@@ -190,7 +198,7 @@ const SingleItem = ({
                     <Input
                         value={`${total} ${currency}`}
                         readOnly
-                        placeholder="Item total"
+                        placeholder="请输入项目总价"
                         className="border-none font-medium text-lg bg-transparent"
                         size={10}
                     />
@@ -199,7 +207,7 @@ const SingleItem = ({
             <FormTextarea
                 name={`${name}[${index}].description`}
                 label={_t("form.steps.lineItems.description")}
-                placeholder="Item description"
+                placeholder="请输入项目描述"
             />
             <div>
                 {/* Not allowing deletion for first item when there is only 1 item */}

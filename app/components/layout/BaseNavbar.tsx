@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 // Assets
-import Logo from "@/public/assets/img/invoify-logo.svg";
+const logoUrl = "https://i.czl.net/r2/2023/06/20/6491692758187.png";
 
 // ShadCn
 import { Card } from "@/components/ui/card";
@@ -21,16 +21,19 @@ const BaseNavbar = () => {
     return (
         <header className="lg:container z-[99]">
             <nav>
-                <Card className="flex flex-wrap justify-between items-center px-5 gap-5">
+                <Card className="flex flex-wrap justify-between items-center px-5 gap-1">
                     <Link href={"/"}>
-                        <Image
-                            src={Logo}
-                            alt="Invoify Logo"
-                            width={190}
+                        <img
+                            src={logoUrl}
+                            alt="CZL Express Logo"
+                            width={100}
                             height={100}
                             loading="eager"
                         />
                     </Link>
+                    <div className="flex flex-row items-center gap-2">
+                        <h1 className="text-2xl font-bold">CZL Express 国际运输发票生成器</h1>
+                    </div>
                     {/* ? DEV Only */}
                     {devEnv && <DevDebug />}
                     <LanguageSelector />

@@ -45,39 +45,44 @@ const BillToSection = () => {
             <Subheading>{_t("form.steps.fromAndTo.billTo")}:</Subheading>
 
             <FormInput
-                name="receiver.name"
-                label={_t("form.steps.fromAndTo.name")}
-                placeholder="Receiver name"
+                name="receiver.companyName"
+                label={_t("form.steps.fromAndTo.companyName")}
+                placeholder="请输入公司名"
+            />
+            <FormInput
+                name="receiver.individualName"
+                label={_t("form.steps.fromAndTo.individualName")}
+                placeholder="请输入人名"
             />
             <FormInput
                 name="receiver.address"
                 label={_t("form.steps.fromAndTo.address")}
-                placeholder="Receiver address"
+                placeholder="请输入地址"
             />
             <FormInput
                 name="receiver.zipCode"
                 label={_t("form.steps.fromAndTo.zipCode")}
-                placeholder="Receiver zip code"
+                placeholder="请输入邮政编码"
             />
             <FormInput
                 name="receiver.city"
                 label={_t("form.steps.fromAndTo.city")}
-                placeholder="Receiver city"
+                placeholder="请输入城市"
             />
             <FormInput
                 name="receiver.country"
                 label={_t("form.steps.fromAndTo.country")}
-                placeholder="Receiver country"
+                placeholder="请输入国家"
             />
             <FormInput
                 name="receiver.email"
                 label={_t("form.steps.fromAndTo.email")}
-                placeholder="Receiver email"
+                placeholder="请输入邮箱"
             />
             <FormInput
                 name="receiver.phone"
                 label={_t("form.steps.fromAndTo.phone")}
-                placeholder="Receiver phone number"
+                placeholder="请输入电话号码"
             />
 
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
@@ -91,7 +96,7 @@ const BillToSection = () => {
             ))}
 
             <BaseButton
-                tooltipLabel="Add custom input to receiver"
+                tooltipLabel="添加收件人自定义输入"
                 size="sm"
                 variant="link"
                 className="w-fit"

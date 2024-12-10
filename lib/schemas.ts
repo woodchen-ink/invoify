@@ -86,6 +86,8 @@ const CustomInputSchema = z.object({
 });
 
 const InvoiceSenderSchema = z.object({
+    companyName: fieldValidators.stringOptional,
+    individualName: fieldValidators.stringOptional,
     name: fieldValidators.name,
     address: fieldValidators.address,
     zipCode: fieldValidators.zipCode,
@@ -97,6 +99,8 @@ const InvoiceSenderSchema = z.object({
 });
 
 const InvoiceReceiverSchema = z.object({
+    companyName: fieldValidators.stringOptional,
+    individualName: fieldValidators.stringOptional,
     name: fieldValidators.name,
     address: fieldValidators.address,
     zipCode: fieldValidators.zipCode,
@@ -113,6 +117,7 @@ const ItemSchema = z.object({
     quantity: fieldValidators.quantity,
     unitPrice: fieldValidators.unitPrice,
     total: fieldValidators.stringToNumber,
+    hsCode: fieldValidators.stringOptional,
 });
 
 const PaymentInformationSchema = z.object({

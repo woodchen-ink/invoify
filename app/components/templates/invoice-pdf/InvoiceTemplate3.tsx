@@ -12,39 +12,32 @@ import { DATE_OPTIONS } from "@/lib/variables";
 // Types
 import { InvoiceType } from "@/types";
 
-const InvoiceTemplate = (data: InvoiceType) => {
+const InvoiceTemplate2 = (data: InvoiceType) => {
     const { sender, receiver, details } = data;
-
     return (
         <InvoiceLayout data={data}>
             <div className="flex justify-between">
                 <div>
+                    <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
+                        Invoice #
+                    </h2>
+                    <span className="mt-1 block text-gray-500">
+                        {details.invoiceNumber}
+                    </span>
                     {details.invoiceLogo && (
                         <img
                             src={details.invoiceLogo}
                             width={140}
                             height={100}
-                            alt={`Logo of ${sender.companyName}`}
+                            alt={`Logo of ${sender.name}`}
                         />
                     )}
-                    <h1 className="mt-2 text-normal md:text-xl font-semibold text-blue-600">
-                        {sender.companyName}
+
+                    <h1 className="mt-2 text-lg md:text-xl font-semibold text-blue-600">
+                        {sender.name}
                     </h1>
-                    <p className="text-gray-800 font-medium">{sender.individualName}</p>
-                    <p className="text-sm  text-gray-500">
-                        {sender.email}
-                    </p>
-                    <p className="text-sm  text-gray-500">
-                        {sender.phone}
-                    </p>
                 </div>
                 <div className="text-right">
-                    <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
-                        Proforma Invoice #
-                    </h2>
-                    <span className="mt-1 block text-gray-500">
-                        {details.invoiceNumber}
-                    </span>
                     <address className="mt-4 not-italic text-gray-800">
                         {sender.address}
                         <br />
@@ -58,25 +51,18 @@ const InvoiceTemplate = (data: InvoiceType) => {
 
             <div className="mt-6 grid sm:grid-cols-2 gap-3">
                 <div>
-                    <h3 className="text-xl font-semibold text-gray-800">
+                    <h3 className="text-lg font-semibold text-gray-800">
                         Receiver:
                     </h3>
                     <h3 className="text-lg font-semibold text-gray-800">
-                        {receiver.companyName}
+                        {receiver.name}
                     </h3>
-                    <p className="text-gray-700">{receiver.individualName}</p>
-                    <p className="text-sm  text-gray-500">Email: {receiver.email}</p>
-                    <p className="text-sm  text-gray-500">Phone: {receiver.phone}</p>
-                    {receiver.customInputs?.map((input, index) => (
-                        <p key={index} className="text-sm text-gray-500">
-                            {input.key}: {input.value}
-                        </p>
-                    ))}
-                    <div className="mt-2 not-italic text-gray-500 max-w-sm text-xs">
-                        Address: {receiver.address} <br />
-                        {receiver.city}, {receiver.zipCode}<br />
-                        {receiver.country}
-                    </div>
+                    <address className="mt-2 not-italic text-gray-500">
+                        {receiver.address}, {receiver.zipCode}
+                        <br />
+                        {receiver.city}, {receiver.country}
+                        <br />
+                    </address>
                 </div>
                 <div className="sm:text-right space-y-2">
                     <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
@@ -85,80 +71,68 @@ const InvoiceTemplate = (data: InvoiceType) => {
                                 Invoice date:
                             </dt>
                             <dd className="col-span-3 text-gray-500">
-                                {details.invoiceDate ?
-                                    new Date(details.invoiceDate).toISOString().split('T')[0] :
-                                    'N/A'
-                                }
+                                {new Date(
+                                    details.invoiceDate
+                                ).toLocaleDateString("en-US", DATE_OPTIONS)}
                             </dd>
                         </dl>
-                        {details.dueDate && (
-                            <dl className="grid sm:grid-cols-6 gap-x-3">
-                                <dt className="col-span-3 font-semibold text-gray-800">
-                                    Due date:
-                                </dt>
-                                <dd className="col-span-3 text-gray-500">
-                                    {details.invoiceDate ?
-                                        new Date(details.invoiceDate).toISOString().split('T')[0] :
-                                        'N/A'
-                                    }
-                                </dd>
-                            </dl>
-                        )}
-                        {details.airwaybillNumber && (
-                            <dl className="grid sm:grid-cols-6 gap-x-3">
-                                <dt className="col-span-3 font-semibold text-gray-800">
-                                    AWB No:
-                                </dt>
-                                <dd className="col-span-3 text-gray-500">
-                                    {details.airwaybillNumber}
-                                </dd>
-                            </dl>
-                        )}
+                        <dl className="grid sm:grid-cols-6 gap-x-3">
+                            <dt className="col-span-3 font-semibold text-gray-800">
+                                Due date:
+                            </dt>
+                            <dd className="col-span-3 text-gray-500">
+                                {new Date(details.dueDate).toLocaleDateString(
+                                    "en-US",
+                                    DATE_OPTIONS
+                                )}
+                            </dd>
+                        </dl>
                     </div>
                 </div>
             </div>
 
             <div className="mt-3">
                 <div className="border border-gray-200 p-1 rounded-lg space-y-1">
-                    <div className="hidden sm:grid sm:grid-cols-6">
+                    <div className="hidden sm:grid sm:grid-cols-5">
                         <div className="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">
-                            Full Description of Goods
-                        </div>
-                        <div className="text-left text-xs font-medium text-gray-500 uppercase">
-                            HS Code
+                            Item
                         </div>
                         <div className="text-left text-xs font-medium text-gray-500 uppercase">
                             Qty
                         </div>
                         <div className="text-left text-xs font-medium text-gray-500 uppercase">
-                            Unit Value
+                            Rate
                         </div>
                         <div className="text-right text-xs font-medium text-gray-500 uppercase">
-                            Total Value
+                            Amount
                         </div>
-
                     </div>
                     <div className="hidden sm:block border-b border-gray-200"></div>
-                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-y-1">
+                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-y-1">
                         {details.items.map((item, index) => (
                             <React.Fragment key={index}>
-                                <div className="col-span-full sm:col-span-2 border-b border-gray-300 flex justify-between">
-                                    <div>
-                                        <p className="font-medium text-gray-800">{item.name}</p>
-                                        <p className="text-xs text-gray-600">{item.description}</p>
-                                    </div>
+                                <div className="col-span-full sm:col-span-2 border-b border-gray-300">
+                                    <p className="font-medium text-gray-800">
+                                        {item.name}
+                                    </p>
+                                    <p className="text-xs text-gray-600">
+                                        {item.description}
+                                    </p>
                                 </div>
                                 <div className="border-b border-gray-300">
-                                    <p className="text-gray-800 truncate">{item.hsCode}</p>
+                                    <p className="text-gray-800">
+                                        {item.quantity}
+                                    </p>
                                 </div>
                                 <div className="border-b border-gray-300">
-                                    <p className="text-gray-800">{item.quantity}</p>
+                                    <p className="text-gray-800">
+                                        {item.unitPrice} {details.currency}
+                                    </p>
                                 </div>
                                 <div className="border-b border-gray-300">
-                                    <p className="text-gray-800">{item.unitPrice} {details.currency}</p>
-                                </div>
-                                <div className="border-b border-gray-300">
-                                    <p className="sm:text-right text-gray-800">{item.total} {details.currency}</p>
+                                    <p className="sm:text-right text-gray-800">
+                                        {item.total} {details.currency}
+                                    </p>
                                 </div>
                             </React.Fragment>
                         ))}
@@ -168,11 +142,11 @@ const InvoiceTemplate = (data: InvoiceType) => {
             </div>
 
             <div className="mt-2 flex sm:justify-end">
-                <div className="sm:text-right space-y-2">
+                <div className="w-full max-w-2xl sm:text-right space-y-2">
                     <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
                         <dl className="grid sm:grid-cols-5 gap-x-3">
                             <dt className="col-span-3 font-semibold text-gray-800">
-                                Total Declared Value:
+                                Subtotal:
                             </dt>
                             <dd className="col-span-2 text-gray-500">
                                 {formatNumberWithCommas(
@@ -189,7 +163,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
                                     </dt>
                                     <dd className="col-span-2 text-gray-500">
                                         {details.discountDetails.amountType ===
-                                            "amount"
+                                        "amount"
                                             ? `- ${details.discountDetails.amount} ${details.currency}`
                                             : `- ${details.discountDetails.amount}%`}
                                     </dd>
@@ -203,7 +177,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
                                     </dt>
                                     <dd className="col-span-2 text-gray-500">
                                         {details.taxDetails.amountType ===
-                                            "amount"
+                                        "amount"
                                             ? `+ ${details.taxDetails.amount} ${details.currency}`
                                             : `+ ${details.taxDetails.amount}%`}
                                     </dd>
@@ -217,7 +191,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
                                     </dt>
                                     <dd className="col-span-2 text-gray-500">
                                         {details.shippingDetails.costType ===
-                                            "amount"
+                                        "amount"
                                             ? `+ ${details.shippingDetails.cost} ${details.currency}`
                                             : `+ ${details.shippingDetails.cost}%`}
                                     </dd>
@@ -251,71 +225,69 @@ const InvoiceTemplate = (data: InvoiceType) => {
                 </div>
             </div>
 
-            <div className="mt-2 grid grid-cols-2 gap-4">
-                <div>
-                    <p className="font-semibold text-blue-600">Type of Export:</p>
-                    <p className="font-regular text-gray-800">
-                        {details.typeOfExport || "Permanent"}
-                    </p>
-                </div>
-                <div>
-                    <p className="font-semibold text-blue-600">Incoterm:</p>
-                    <p className="font-regular text-gray-800">
-                        {details.incoterm || "DAP-Delivered at Place"}
-                    </p>
-                </div>
-            </div>
-
             <div>
                 <div className="my-4">
-                    {details.additionalNotes && (
-                        <div className="my-2 flex items-center">
-                            <p className="font-semibold text-blue-600 mr-2">Additional notes:</p>
-                            <p className="font-regular text-gray-800">{details.additionalNotes}</p>
-                        </div>
-                    )}
-                    {details.paymentTerms && (
-                        <div className="my-2 flex items-center">
-                            <p className="font-semibold text-blue-600 mr-2">Payment terms:</p>
-                            <p className="font-regular text-gray-800">{details.paymentTerms}</p>
-                        </div>
-                    )}
-                    {details.paymentInformation?.bankName && (
-                        <div className="my-2">
-                            <span className="font-semibold text-md text-gray-800">
-                                Please send the payment to this address
-                                <p className="text-sm">
-                                    Bank: {details.paymentInformation?.bankName}
-                                </p>
-                                <p className="text-sm">
-                                    Account name:{" "}
-                                    {details.paymentInformation?.accountName}
-                                </p>
-                                <p className="text-sm">
-                                    Account no:{" "}
-                                    {details.paymentInformation?.accountNumber}
-                                </p>
-                            </span>
-                        </div>
-                    )}
-                    <p className="text-sm text-gray-500 mt-4">I/We hereby certify that the information of this invoice is true and correct and that the contents of this shipment are as stated above.</p>
+                    <div className="my-2">
+                        <p className="font-semibold text-blue-600">
+                            Additional notes:
+                        </p>
+                        <p className="font-regular text-gray-800">
+                            {details.additionalNotes}
+                        </p>
+                    </div>
+                    <div className="my-2">
+                        <p className="font-semibold text-blue-600">
+                            Payment terms:
+                        </p>
+                        <p className="font-regular text-gray-800">
+                            {details.paymentTerms}
+                        </p>
+                    </div>
+                    <div className="my-2">
+                        <span className="font-semibold text-md text-gray-800">
+                            Please send the payment to this address
+                            <p className="text-sm">
+                                Bank: {details.paymentInformation?.bankName}
+                            </p>
+                            <p className="text-sm">
+                                Account name:{" "}
+                                {details.paymentInformation?.accountName}
+                            </p>
+                            <p className="text-sm">
+                                Account no:{" "}
+                                {details.paymentInformation?.accountNumber}
+                            </p>
+                        </span>
+                    </div>
+                </div>
+                <p className="text-gray-500 text-sm">
+                    If you have any questions concerning this invoice, use the
+                    following contact information:
+                </p>
+                <div>
+                    <p className="block text-sm font-medium text-gray-800">
+                        {sender.email}
+                    </p>
+                    <p className="block text-sm font-medium text-gray-800">
+                        {sender.phone}
+                    </p>
                 </div>
             </div>
 
             {/* Signature */}
             {details?.signature?.data && isDataUrl(details?.signature?.data) ? (
-                <div className="mt-6 flex flex-row items-center">
-                    <p className="font-semibold text-gray-800 mr-2">Signature:</p>
+                <div className="mt-6">
+                    <p className="font-semibold text-gray-800">Signature:</p>
                     <img
                         src={details.signature.data}
                         width={120}
                         height={60}
-                        alt={`Signature of ${sender.companyName}`}
+                        alt={`Signature of ${sender.name}`}
                     />
                 </div>
             ) : details.signature?.data ? (
-                <div className="mt-6 flex flex-row items-center">
-                    <p className="text-gray-800 mr-2">Signature:</p>
+                <div className="mt-6">
+                    <p className="text-gray-800">Signature:</p>
                     <p
                         style={{
                             fontSize: 30,
@@ -328,14 +300,8 @@ const InvoiceTemplate = (data: InvoiceType) => {
                     </p>
                 </div>
             ) : null}
-            {sender.companyName && (
-                <div className="mt-8 flex flex-row">
-                    <p className="font-semibold text-gray-800 mr-2">Name of Company: </p>
-                    <p className="font-normal text-gray-500">{sender.companyName}</p>
-                </div>
-            )}
         </InvoiceLayout>
     );
 };
 
-export default InvoiceTemplate;
+export default InvoiceTemplate2;

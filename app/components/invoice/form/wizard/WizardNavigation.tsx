@@ -21,7 +21,7 @@ const WizardNavigation = () => {
         <div className="flex justify-end gap-5">
             {!isFirstStep && (
                 <BaseButton
-                    tooltipLabel="Go back to the previous step"
+                    tooltipLabel="返回上一步"
                     onClick={previousStep}
                 >
                     <ArrowLeft />
@@ -29,7 +29,7 @@ const WizardNavigation = () => {
                 </BaseButton>
             )}
             <BaseButton
-                tooltipLabel="Go to the next step"
+                tooltipLabel="前往下一步"
                 disabled={isLastStep}
                 onClick={nextStep}
             >

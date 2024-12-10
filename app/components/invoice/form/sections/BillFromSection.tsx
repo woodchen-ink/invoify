@@ -44,39 +44,44 @@ const BillFromSection = () => {
             <Subheading>{_t("form.steps.fromAndTo.billFrom")}:</Subheading>
 
             <FormInput
-                name="sender.name"
-                label={_t("form.steps.fromAndTo.name")}
-                placeholder="Your name"
+                name="sender.companyName"
+                label={_t("form.steps.fromAndTo.companyName")}
+                placeholder="请输入公司名"
+            />
+            <FormInput
+                name="sender.individualName"
+                label={_t("form.steps.fromAndTo.individualName")}
+                placeholder="请输入人名"
             />
             <FormInput
                 name="sender.address"
                 label={_t("form.steps.fromAndTo.address")}
-                placeholder="Your address"
+                placeholder="请输入地址"
             />
             <FormInput
                 name="sender.zipCode"
                 label={_t("form.steps.fromAndTo.zipCode")}
-                placeholder="Your zip code"
+                placeholder="请输入邮政编码"
             />
             <FormInput
                 name="sender.city"
                 label={_t("form.steps.fromAndTo.city")}
-                placeholder="Your city"
+                placeholder="请输入城市"
             />
             <FormInput
                 name="sender.country"
                 label={_t("form.steps.fromAndTo.country")}
-                placeholder="Your country"
+                placeholder="请输入国家"
             />
             <FormInput
                 name="sender.email"
                 label={_t("form.steps.fromAndTo.email")}
-                placeholder="Your email"
+                placeholder="请输入邮箱"
             />
             <FormInput
                 name="sender.phone"
                 label={_t("form.steps.fromAndTo.phone")}
-                placeholder="Your phone number"
+                placeholder="请输入电话号码"
             />
 
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
@@ -90,7 +95,7 @@ const BillFromSection = () => {
             ))}
 
             <BaseButton
-                tooltipLabel="Add custom input to sender"
+                tooltipLabel="添加发件人自定义输入"
                 size="sm"
                 variant="link"
                 className="w-fit"
