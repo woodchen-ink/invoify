@@ -48,7 +48,7 @@ const LanguageSelector = () => {
                 }}
             >
                 <SelectGroup>
-                    <SelectLabel>Languages</SelectLabel>
+                    <SelectLabel>语言</SelectLabel>
 
                     {LOCALES.map((locale) => (
                         <SelectItem key={locale.code} value={locale.code}>

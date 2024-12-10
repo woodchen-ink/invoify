@@ -128,21 +128,21 @@ const SavedInvoicesList = ({ setModalState }: SavedInvoicesListProps) => {
 
                             <div className="flex flex-col gap-2">
                                 <BaseButton
-                                    tooltipLabel="Load invoice details into the form"
+                                    tooltipLabel="将发票详情加载到表单中"
                                     variant="outline"
                                     size="sm"
                                     onClick={() => load(invoice)}
                                 >
-                                    Load
+                                    加载
                                 </BaseButton>
 
                                 <BaseButton
-                                    tooltipLabel="Load invoice and generate PDF"
+                                    tooltipLabel="将发票加载到表单中并生成PDF"
                                     variant="outline"
                                     size="sm"
                                     onClick={() => loadAndGeneratePdf(invoice)}
                                 >
-                                    Load & Generate
+                                    加载并生成PDF
                                 </BaseButton>
                                 {/* Remove Invoice Button */}
                                 <BaseButton
@@ -153,7 +153,7 @@ const SavedInvoicesList = ({ setModalState }: SavedInvoicesListProps) => {
                                         deleteInvoice(idx);
                                     }}
                                 >
-                                    Delete
+                                    删除
                                 </BaseButton>
                             </div>
                         </CardContent>
@@ -162,7 +162,7 @@ const SavedInvoicesList = ({ setModalState }: SavedInvoicesListProps) => {
 
                 {savedInvoices.length == 0 && (
                     <div>
-                        <p>No saved invoices</p>
+                        <p>没有已保存的发票</p>
                     </div>
                 )}
             </div>

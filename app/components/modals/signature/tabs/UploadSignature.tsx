@@ -1,17 +1,22 @@
-// ShadCn
+// 阴影 cn
+
 import { Card, CardContent } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 
-// Components
+// 组件
+
 import { BaseButton } from "@/app/components";
 
-// Contexts
+// 上下文
+
 import { useSignatureContext } from "@/contexts/SignatureContext";
 
-// Icons
+// 图标
+
 import { Check, Trash2 } from "lucide-react";
 
-// Types
+// 类型
+
 import { SignatureTabs } from "@/types";
 
 type UploadSignatureProps = {
@@ -44,7 +49,7 @@ const UploadSignature = ({ handleSaveSignature }: UploadSignatureProps) => {
                         ) : (
                             <div>Upload image</div>
                         )}
-                        {/* Upload file here */}
+                        {/* 在此上传文件 */}
                         <input
                             ref={uploadSignatureRef}
                             type="file"
@@ -54,23 +59,23 @@ const UploadSignature = ({ handleSaveSignature }: UploadSignatureProps) => {
                     </div>
                 </CardContent>
                 <div className="flex justify-end gap-2 pt-2">
-                    {/* Buttons and operations */}
+                    {/* 按钮和操作 */}
                     {uploadSignatureImg && (
                         <BaseButton
-                            tooltipLabel="Remove signature image"
+                            tooltipLabel="删除签名图片"
                             variant="outline"
                             onClick={handleRemoveUploadedSignature}
                         >
-                            Remove
+                            删除
                             <Trash2 />
                         </BaseButton>
                     )}
                     <BaseButton
-                        tooltipLabel="Save changes"
+                        tooltipLabel="保存更改"
                         disabled={!uploadSignatureImg}
                         onClick={handleSaveSignature}
                     >
-                        Done
+                        完成
                         <Check />
                     </BaseButton>
                 </div>

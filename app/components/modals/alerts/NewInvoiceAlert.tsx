@@ -54,19 +54,18 @@ const NewInvoiceAlert = ({ children }: NewInvoiceAlertProps) => {
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            Are you absolutely sure?
+                            您确定要创建新发票吗？
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action cannot be undone. You might lose your
-                            data if you have unsaved changes
+                            此操作无法撤消。如果您有未保存的更改，您可能会丢失数据。
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel onClick={handleCancel}>
-                            Cancel
+                            取消
                         </AlertDialogCancel>
                         <AlertDialogAction onClick={newInvoice}>
-                            Create new invoice
+                            创建新发票
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

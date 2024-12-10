@@ -26,7 +26,7 @@ export default function SendPdfEmail({ invoiceNumber }: SendPdfEmailProps) {
         <Html>
             <Head />
             <Preview>
-                Your invoice #{invoiceNumber} is ready for download
+                您的发票 #{invoiceNumber} 已可供下载
             </Preview>
             <Tailwind>
                 <Body className="bg-gray-100">
@@ -39,21 +39,21 @@ export default function SendPdfEmail({ invoiceNumber }: SendPdfEmailProps) {
                                 height={120}
                             />
                             <Heading className="leading-tight">
-                                Thanks for using Invoify!
+                                感谢您使用 Invoify!
                             </Heading>
 
                             <Text>
-                                We're pleased to inform you that your invoice{" "}
-                                <b>#{invoiceNumber}</b> is ready for download.
-                                Please find the attached PDF document.
+                                我们很高兴地通知您，您的发票{" "}
+                                <b>#{invoiceNumber}</b> 已准备好下载。
+                                请查看随附的 PDF 文档。
                             </Text>
 
                             <Hr />
 
                             <Text>
-                                Best Regards,
-                                <br />
-                                Invoify Team
+                                此致，
+                                <br/>
+                                CZL Express
                             </Text>
                         </Section>
                     </Container>

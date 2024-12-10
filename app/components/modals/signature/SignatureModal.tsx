@@ -72,8 +72,8 @@ const SignatureModal = ({}: SignatureModalProps) => {
         if (tab == SignatureTabs.DRAW) {
             handleCanvasEnd();
 
-            // This setValue was removed from handleCanvasEnd and put here to prevent
-            // the signature from showing updated drawing every time drawing stops
+            // 这个 setValue 被从 handleCanvasEnd 中移除并放到这里以防止
+            // 每次绘图停止时，签名会显示更新的图纸。
             setValue("details.signature.data", signatureData, {
                 shouldDirty: true,
             });

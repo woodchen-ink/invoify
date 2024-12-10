@@ -69,21 +69,21 @@ const TypeSignature = ({ handleSaveSignature }: TypeSignatureProps) => {
 
                     {typedSignature && (
                         <BaseButton
-                            tooltipLabel="Clear signature"
+                            tooltipLabel="删除签名"
                             variant="outline"
                             onClick={clearTypedSignature}
                         >
-                            Clear
+                            删除
                             <Eraser />
                         </BaseButton>
                     )}
 
                     <BaseButton
-                        tooltipLabel="Save changes"
+                        tooltipLabel="保存更改"
                         disabled={!typedSignature}
                         onClick={handleSaveSignature}
                     >
-                        Done
+                        完成
                         <Check />
                     </BaseButton>
                 </div>

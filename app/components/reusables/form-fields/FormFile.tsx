@@ -119,7 +119,7 @@ const FormFile = ({ name, label, placeholder }: FormFileProps) => {
                 <div>
                     <BaseButton variant="destructive" onClick={removeLogo}>
                         <ImageMinus />
-                        Remove logo
+                        删除LOGO
                     </BaseButton>
                 </div>
             )}

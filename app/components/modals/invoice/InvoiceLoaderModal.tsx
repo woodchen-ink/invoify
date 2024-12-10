@@ -35,7 +35,7 @@ const InvoiceLoaderModal = ({ children }: InvoiceLoaderModalType) => {
                 <DialogHeader className="pb-2 border-b">
                     <DialogTitle>Saved Invoices</DialogTitle>
                     <DialogDescription>
-                        You have {savedInvoices.length} saved invoices
+                        您有 {savedInvoices.length} 个已保存的发票
                     </DialogDescription>
                 </DialogHeader>
 

@@ -35,9 +35,9 @@ const InvoiceExportModal = ({ children }: InvoiceExportModalType) => {
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Export the invoice</DialogTitle>
+                    <DialogTitle>导出发票</DialogTitle>
                     <DialogDescription>
-                        Please select export option for your invoice
+                        请选择您的发票导出选项
                     </DialogDescription>
                 </DialogHeader>
 
@@ -45,38 +45,38 @@ const InvoiceExportModal = ({ children }: InvoiceExportModalType) => {
 
                 <div className="flex flex-wrap flex-row gap-5">
                     <BaseButton
-                        tooltipLabel="Export Invoice as JSON"
+                        tooltipLabel="导出为JSON"
                         variant="outline"
                         disabled={invoicePdfLoading}
                         onClick={() => exportInvoiceAs(ExportTypes.JSON)}
                     >
-                        Export as JSON
+                        导出为JSON
                     </BaseButton>
                     <BaseButton
-                        tooltipLabel="Export Invoice as CSV"
+                        tooltipLabel="导出为CSV"
                         variant="outline"
                         disabled={invoicePdfLoading}
                         onClick={() => exportInvoiceAs(ExportTypes.CSV)}
                     >
-                        Export as CSV
+                        导出为CSV
                     </BaseButton>
 
                     <BaseButton
-                        tooltipLabel="Export Invoice as XML"
+                        tooltipLabel="导出为XML"
                         variant="outline"
                         disabled={invoicePdfLoading}
                         onClick={() => exportInvoiceAs(ExportTypes.XML)}
                     >
-                        Export as XML
+                        导出为XML
                     </BaseButton>
 
                     <BaseButton
-                        tooltipLabel="Export Invoice as XLSX"
+                        tooltipLabel="导出为XLSX"
                         variant="outline"
                         disabled={invoicePdfLoading}
                         onClick={() => exportInvoiceAs(ExportTypes.XLSX)}
                     >
-                        Export as XLSX
+                        导出为XLSX
                     </BaseButton>
                 </div>
             </DialogContent>

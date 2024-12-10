@@ -1,22 +1,28 @@
 "use client";
 
-// React Signature Canvas
+// 反应签名画布
+
 import SignatureCanvas from "react-signature-canvas";
 
-// ShadCn
+// 鲥鱼 CN
+
 import { Card, CardContent } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 
-// Components
+// 成分
+
 import { BaseButton, SignatureColorSelector } from "@/app/components";
 
-// Contexts
+// 上下文
+
 import { useSignatureContext } from "@/contexts/SignatureContext";
 
-// Icons
+// 图标
+
 import { Check, Eraser } from "lucide-react";
 
-// Types
+// 类型
+
 import { SignatureTabs } from "@/types";
 
 type DrawSignatureProps = {
@@ -45,11 +51,14 @@ const DrawSignature = ({ handleSaveSignature }: DrawSignatureProps) => {
                             margin: "0 auto",
                         }}
                     >
-                        {/* Signature Canvas to draw signature */}
+                        {/* 签名画布用于绘制签名 */}
                         <SignatureCanvas
-                            velocityFilterWeight={1} // Adjust the velocityFilterWeight to make the pen lighter
-                            minWidth={1.4} // Adjust the minWidth for a finer line
-                            maxWidth={1.4} // Adjust the maxWidth for a finer line
+                            velocityFilterWeight={1} // 调整velocityFilterWeight，让笔变得更轻
+
+                            minWidth={1.4} // 调整 minWidth 以获得更细的线条
+
+                            maxWidth={1.4} // 调整 maxWidth 以获得更细的线条
+
                             throttle={0}
                             ref={signatureRef}
                             penColor={selectedColor}
@@ -66,7 +75,7 @@ const DrawSignature = ({ handleSaveSignature }: DrawSignatureProps) => {
                     </div>
                 </CardContent>
                 <div className="flex justify-between gap-2 pt-2">
-                    {/* Color selector */}
+                    {/* 颜色选择器 */}
                     <SignatureColorSelector
                         colors={colors}
                         selectedColor={selectedColor}
