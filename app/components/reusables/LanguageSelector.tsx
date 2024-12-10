@@ -32,7 +32,7 @@ const LanguageSelector = () => {
     return (
         <Select
             value={params.locale.toLocaleString()}
-            onValueChange={(lang) => handleLanguageChange(lang)}
+            onValueChange={(lang: string) => handleLanguageChange(lang)}
         >
             <SelectTrigger
                 className="w-[10rem] relative"

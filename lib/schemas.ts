@@ -153,6 +153,10 @@ const InvoiceDetailsSchema = z.object({
     invoiceDate: fieldValidators.date,
     dueDate: fieldValidators.date,
     purchaseOrderNumber: fieldValidators.stringOptional,
+    airwaybillNumber: fieldValidators.stringOptional,
+    typeOfExport: fieldValidators.stringOptional,
+    hsCode: fieldValidators.stringOptional,
+    incoterm: fieldValidators.stringOptional,
     currency: fieldValidators.string,
     language: fieldValidators.string,
     items: z.array(ItemSchema),
@@ -168,7 +172,6 @@ const InvoiceDetailsSchema = z.object({
     signature: SignatureSchema.optional(),
     updatedAt: fieldValidators.stringOptional,
     pdfTemplate: z.number(),
-    airwaybillNumber: fieldValidators.stringOptional,
 });
 
 const InvoiceSchema = z.object({

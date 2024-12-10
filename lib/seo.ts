@@ -1,4 +1,4 @@
-import { AUTHOR_WEBSITE, BASE_URL } from "@/lib/variables";
+import { BASE_URL } from "@/lib/variables";
 
 export const ROOTKEYWORDS = [
     "invoice",
