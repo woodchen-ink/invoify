@@ -13,11 +13,13 @@ import { SendPdfEmail } from "@/app/components";
 import { fileToBuffer } from "@/lib/helpers";
 
 // Variables
-import { NODEMAILER_EMAIL, NODEMAILER_PW } from "@/lib/variables";
+import { NODEMAILER_EMAIL, NODEMAILER_PW, NODEMAILER_HOST } from "@/lib/variables";
 
 // Nodemailer transporter
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: NODEMAILER_HOST,
+    port: 465,
+    secure: true,
     auth: {
         user: NODEMAILER_EMAIL,
         pass: NODEMAILER_PW,
