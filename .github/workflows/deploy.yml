@@ -15,7 +15,7 @@ jobs:
 
     - name: Create deployment package
       run: |
-        zip -r deploy.zip ./* 
+        zip -r deploy.zip ./*
 
     - name: Copy deployment package to server
       uses: appleboy/scp-action@master
@@ -39,48 +39,9 @@ jobs:
           # 解压文件到临时目录
           unzip -o /tmp/deploy.zip -d /tmp/deploy_temp
           
-          # 停止容器
-          docker stop invoify || true
-          
-          # 清理并准备目标目录
-          rm -rf /opt/1panel/docker/compose/invoify/*
-          mkdir -p /opt/1panel/docker/compose/invoify
-          
-          # 移动文件到目标目录
-          mv /tmp/deploy_temp/* /opt/1panel/docker/compose/invoify/
+          # 使用 rsync 更新目标目录的文件
+          rsync -av  /tmp/deploy_temp/ /opt/1panel/docker/compose/invoify/
           
           # 清理临时文件
           rm -rf /tmp/deploy_temp
           rm -f /tmp/deploy.zip
-          
-          # 启动容器
-          docker start invoify
-          
-          # 等待容器启动
-          sleep 10
-          
-          # 在容器内执行安装命令
-          docker exec invoify bash -c '
-            cd /app && \
-            npm install && \
-            apt-get update && \
-            apt-get install -y \
-              libnss3 \
-              libglib2.0-0 \
-              libatk1.0-0 \
-              libcups2 \
-              libdbus-1-3 \
-              libexpat1 \
-              libfontconfig1 \
-              libgbm1 \
-              libgtk-3-0 \
-              libpango-1.0-0 \
-              libx11-xcb1 \
-              libxcomposite1 \
-              libxdamage1 \
-              libxkbcommon0 \
-              libxrandr2 \
-              libasound2 \
-            && apt-get clean \
-            && rm -rf /var/lib/apt/lists/*
-          '
