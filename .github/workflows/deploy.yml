@@ -21,7 +21,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           # 将项目文件同步到服务器指定目录
-          rsync -avz --delete . /opt/1panel/docker/compose/invoify/
+          rsync -avz --delete . /opt/1panel/docker/compose/
 
           # 重启"invoify" Docker容器
           docker restart invoify
