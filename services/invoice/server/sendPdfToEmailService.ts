@@ -51,13 +51,13 @@ export async function sendPdfToEmailService(
 
     try {
         const mailOptions: SendMailOptions = {
-            from: "Invoify",
+            from: `CZL Express <${NODEMAILER_EMAIL}>`,
             to: email,
-            subject: `Invoice Ready: #${invoiceNumber}`,
+            subject: `发票已生成: #${invoiceNumber}`,
             html: emailHTML,
             attachments: [
                 {
-                    filename: "invoice.pdf",
+                    filename: "发票.pdf",
                     content: invoiceBuffer,
                 },
             ],
