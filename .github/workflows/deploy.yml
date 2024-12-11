@@ -13,25 +13,45 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Deploy to server
+    - name: Create deployment package
+      run: |
+        zip -r deploy.zip ./* 
+
+    - name: Copy deployment package to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: root
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "deploy.zip"
+        target: "/tmp"
+
+    - name: Deploy and restart
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVER_IP }}
         username: root
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          # 停止运行中的容器
+          # 创建临时目录
+          mkdir -p /tmp/deploy_temp
+          
+          # 解压文件到临时目录
+          unzip -o /tmp/deploy.zip -d /tmp/deploy_temp
+          
+          # 停止容器
           docker stop invoify || true
           
-          # 创建目标目录（如果不存在）
+          # 清理并准备目标目录
+          rm -rf /opt/1panel/docker/compose/invoify/*
           mkdir -p /opt/1panel/docker/compose/invoify
           
-          # 清理目标目录
-          rm -rf /opt/1panel/docker/compose/invoify/*
+          # 移动文件到目标目录
+          mv /tmp/deploy_temp/* /opt/1panel/docker/compose/invoify/
           
-          # 直接复制文件到目标目录
-          cd $GITHUB_WORKSPACE
-          cp -r . /opt/1panel/docker/compose/invoify/
+          # 清理临时文件
+          rm -rf /tmp/deploy_temp
+          rm -f /tmp/deploy.zip
           
           # 启动容器
           docker start invoify
