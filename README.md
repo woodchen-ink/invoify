@@ -93,3 +93,26 @@ Follow these instructions to get Invoify up and running on your local machine.
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+1panel部署时, 需要在容器内执行: 
+
+```
+apt-get update
+apt-get install -y \
+    libnss3 \
+    libglib2.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libexpat1 \
+    libfontconfig1 \
+    libgbm1 \
+    libgtk-3-0 \
+    libpango-1.0-0 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxkbcommon0 \
+    libxrandr2 \
+    libasound2
+```
