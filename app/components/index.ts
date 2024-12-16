@@ -32,6 +32,7 @@ import InvoiceDetails from "./invoice/form/sections/InvoiceDetails";
 import Items from "./invoice/form/sections/Items";
 import PaymentInformation from "./invoice/form/sections/PaymentInformation";
 import InvoiceSummary from "./invoice/form/sections/InvoiceSummary";
+import ImportJsonButton from "./invoice/form/sections/ImportJsonButton";
 
 // * Actions
 import PdfViewer from "./invoice/actions/PdfViewer";
@@ -132,6 +133,7 @@ export {
     SendPdfToEmailModal,
     InvoiceLoaderModal,
     InvoiceExportModal,
+    ImportJsonButton,
     SignatureModal,
     DrawSignature,
     TypeSignature,

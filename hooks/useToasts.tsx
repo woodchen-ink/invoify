@@ -65,6 +65,14 @@ const useToasts = () => {
         });
     };
 
+    const importInvoiceError = () => {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "导入发票时出现问题。请确保文件是有效的 JSON 导出。",
+        });
+    };
+
     return {
         newInvoiceSuccess,
         pdfGenerationSuccess,
@@ -72,6 +80,7 @@ const useToasts = () => {
         modifiedInvoiceSuccess,
         sendPdfSuccess,
         sendPdfError,
+        importInvoiceError,
     };
 };
 
