@@ -69,7 +69,7 @@ const useToasts = () => {
         toast({
             variant: "destructive",
             title: "Error",
-            description: "Something went importing the invoice. Make sure the file is a valid Invoify JSON export",
+            description: "导入发票时出现问题。请确保文件是有效的 JSON 导出。",
         });
     };
 

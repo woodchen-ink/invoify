@@ -40,12 +40,12 @@ const ImportJsonButton = ({ setOpen }: ImportJsonButtonType) => {
             />
             <BaseButton
                 variant="outline"
-                tooltipLabel="Import JSON invoice"
+                tooltipLabel="导入 JSON 发票"
                 disabled={invoicePdfLoading}
                 onClick={handleClick}
             >
                 <Import />
-                Import JSON
+                导入 JSON
             </BaseButton>
         </>
     );
