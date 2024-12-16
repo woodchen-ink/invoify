@@ -144,8 +144,8 @@ const InvoiceTemplate = (data: InvoiceType) => {
                             <React.Fragment key={index}>
                                 <div className="col-span-full sm:col-span-2 border-b border-gray-300 flex justify-between">
                                     <div>
-                                        <p className="font-medium text-gray-800">{item.name}</p>
-                                        <p className="text-xs text-gray-600">{item.description}</p>
+                                        <p className="font-medium text-gray-800 whitespace-pre-line">{item.name}</p>
+                                        <p className="text-xs text-gray-600 whitespace-pre-line">{item.description}</p>
                                     </div>
                                 </div>
                                 <div className="border-b border-gray-300">
