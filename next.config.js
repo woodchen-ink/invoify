@@ -2,6 +2,7 @@
 const nextConfig = {
     experimental: {
         serverComponentsExternalPackages: ["puppeteer-core"],
+        esmExternals: 'loose',
     },
     webpack: (config) => {
         config.module.rules.push({
