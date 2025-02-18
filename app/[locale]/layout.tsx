@@ -35,7 +35,7 @@ import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
 import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from "@/lib/variables";
 
 export const metadata: Metadata = {
-    title: "免费国际运输发票生成器 | CZL Express",
+    title: "免费国际快递物流 PI&CI 运输发票在线生成器 | CZL Express",
     description:
         "CZL Express 提供免费的国际运输发票生成工具。轻松创建专业的物流单据，支持多种语言，适用于国际货运、快递和物流服务。简单快捷地生成标准化运输发票，提高您的业务效率。",
     icons: [{ rel: "icon", url: Favicon.src }],
