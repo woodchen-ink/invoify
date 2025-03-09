@@ -19,6 +19,7 @@ import {
 
 // Contexts
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
+import { useTranslationContext } from "@/contexts/TranslationContext";
 
 // Icons
 import { FileInput, FolderUp, Import, Plus } from "lucide-react";
@@ -26,12 +27,13 @@ import { FileInput, FolderUp, Import, Plus } from "lucide-react";
 const InvoiceActions = () => {
     const { invoicePdfLoading } = useInvoiceContext();
 
+    const { _t } = useTranslationContext();
     return (
         <div className={`xl:w-[45%]`}>
             <Card className="h-auto sticky top-0 px-2">
                 <CardHeader>
-                    <CardTitle>操作</CardTitle>
-                    <CardDescription>操作与预览</CardDescription>
+                    <CardTitle>{_t("actions.title")}</CardTitle>
+                    <CardDescription>{_t("actions.description")}</CardDescription>
                 </CardHeader>
 
                 <div className="flex flex-col flex-wrap items-center gap-2">
@@ -44,7 +46,7 @@ const InvoiceActions = () => {
                                 disabled={invoicePdfLoading}
                             >
                                 <FolderUp />
-                                加载发票
+                                {_t("actions.loadInvoice")}
                             </BaseButton>
                         </InvoiceLoaderModal>
 
@@ -56,7 +58,7 @@ const InvoiceActions = () => {
                                 disabled={invoicePdfLoading}
                             >
                                 <Import />
-                                导出发票
+                                {_t("actions.exportInvoice")}
                             </BaseButton>
                         </InvoiceExportModal>
                     </div>
@@ -70,7 +72,7 @@ const InvoiceActions = () => {
                                 disabled={invoicePdfLoading}
                             >
                                 <Plus />
-                                新发票
+                                {_t("actions.newInvoice")}
                             </BaseButton>
                         </NewInvoiceAlert>
 
@@ -82,7 +84,7 @@ const InvoiceActions = () => {
                             loadingText="Generating your invoice"
                         >
                             <FileInput />
-                            生成PDF
+                            {_t("actions.generatePdf")}
                         </BaseButton>
                     </div>
 
