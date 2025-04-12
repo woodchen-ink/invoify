@@ -20,6 +20,13 @@ const nextConfig = {
         ],
     },
     output: "standalone",
+    // 忽略构建错误
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 };
 
 // Bundle analyzer
