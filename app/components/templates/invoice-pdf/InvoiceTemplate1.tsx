@@ -13,7 +13,7 @@ import { DATE_OPTIONS } from "@/lib/variables";
 import { InvoiceType } from "@/types";
 
 const InvoiceTemplate = (data: InvoiceType) => {
-    const { sender, receiver, details } = data;
+	const { sender, receiver, details } = data;
 
     return (
         <InvoiceLayout data={data}>
