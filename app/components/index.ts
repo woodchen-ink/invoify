@@ -50,7 +50,6 @@ import ChargeInput from "./reusables/form-fields/ChargeInput";
 import FormCustomInput from "./reusables/form-fields/FormCustomInput";
 
 import BaseButton from "./reusables/BaseButton";
-import ThemeSwitcher from "./reusables/ThemeSwitcher";
 import LanguageSelector from "./reusables/LanguageSelector";
 import Subheading from "./reusables/Subheading";
 
@@ -127,7 +126,6 @@ export {
     ChargeInput,
     FormCustomInput,
     BaseButton,
-    ThemeSwitcher,
     LanguageSelector,
     Subheading,
     SendPdfToEmailModal,

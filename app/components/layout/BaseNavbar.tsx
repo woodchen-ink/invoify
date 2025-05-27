@@ -11,7 +11,7 @@ const logoUrl = "https://i.czl.net/r2/img/2024/12/675829b6933fb.png";
 import { Card } from "@/components/ui/card";
 
 // Components
-import { LanguageSelector, ThemeSwitcher } from "@/app/components";
+import { LanguageSelector } from "@/app/components";
 
 const BaseNavbar = () => {
     const devEnv = useMemo(() => {
@@ -44,8 +44,6 @@ const BaseNavbar = () => {
                     {/* ? DEV Only */}
                     {/* {devEnv && <DevDebug />} */}
                     <LanguageSelector />
-
-                    <ThemeSwitcher />
                 </Card>
             </nav>
         </header>

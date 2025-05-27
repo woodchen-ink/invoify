@@ -85,25 +85,25 @@ const InvoiceTemplate = (data: InvoiceType) => {
                                 Invoice date:
                             </dt>
                             <dd className="col-span-3 text-gray-500">
-                                {details.invoiceDate ?
-                                    new Date(details.invoiceDate).toISOString().split('T')[0] :
-                                    'N/A'
-                                }
+{details.invoiceDate ?
+    new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS) :
+    'N/A'
+}
                             </dd>
                         </dl>
-                        {details.dueDate && (
-                            <dl className="grid sm:grid-cols-6 gap-x-3">
-                                <dt className="col-span-3 font-semibold text-gray-800">
-                                    Due date:
-                                </dt>
-                                <dd className="col-span-3 text-gray-500">
-                                    {details.invoiceDate ?
-                                        new Date(details.invoiceDate).toISOString().split('T')[0] :
-                                        'N/A'
-                                    }
-                                </dd>
-                            </dl>
-                        )}
+{details.dueDate && (
+    <dl className="grid sm:grid-cols-6 gap-x-3">
+        <dt className="col-span-3 font-semibold text-gray-800">
+            Due date:
+        </dt>
+        <dd className="col-span-3 text-gray-500">
+{details.dueDate ?
+    new Date(details.dueDate).toLocaleDateString("en-US", DATE_OPTIONS) :
+    'N/A'
+}
+        </dd>
+    </dl>
+)}
                         {details.airwaybillNumber && (
                             <dl className="grid sm:grid-cols-6 gap-x-3">
                                 <dt className="col-span-3 font-semibold text-gray-800">
