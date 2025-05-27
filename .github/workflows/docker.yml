@@ -38,3 +38,22 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+      - name: Execute deployment commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+
+            # 拉取镜像
+            docker pull woodchen/invoify:latest
+
+            # 停止并删除容器
+            docker stop czlinvoify || true
+            docker rm czlinvoify || true
+
+            # 启动容器
+            docker compose -f /opt/1panel/docker/compose/czl-invoify/docker-compose.yml up -d
+      
