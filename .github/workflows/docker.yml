@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+    paths-ignore: ['**.yml']
 
 env:
   IMAGE_NAME: invoify
