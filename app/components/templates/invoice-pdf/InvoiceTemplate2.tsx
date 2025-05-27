@@ -85,10 +85,10 @@ const InvoiceTemplate = (data: InvoiceType) => {
                                 Invoice date:
                             </dt>
                             <dd className="col-span-3 text-gray-500">
-                                {details.invoiceDate ?
-                                    new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS) :
-                                    'N/A'
-                                }
+{details.invoiceDate ?
+    (() => { const d = new Date(details.invoiceDate); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}` })() :
+    'N/A'
+}
                                                             </dd>
                                                         </dl>
                                 {details.dueDate && (
@@ -97,10 +97,10 @@ const InvoiceTemplate = (data: InvoiceType) => {
                                             Due date:
                                         </dt>
                                         <dd className="col-span-3 text-gray-500">
-                                {details.dueDate ?
-                                    new Date(details.dueDate).toLocaleDateString("en-US", DATE_OPTIONS) :
-                                    'N/A'
-                                }
+{details.dueDate ?
+    (() => { const d = new Date(details.dueDate); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}` })() :
+    'N/A'
+}
                                         </dd>
                                     </dl>
                                 )}
