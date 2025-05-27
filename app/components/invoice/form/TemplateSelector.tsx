@@ -35,14 +35,14 @@ const TemplateSelector = () => {
             id: 1,
             name: "形式发票",
             description: "形式发票描述",
-            img: "https://i-aws.czl.net/oracle/img/2024/12/67582d42bc805.png",
+            img: "https://i-cf.czl.net/oracle/img/2024/12/67582d42bc805.png",
             component: <InvoiceTemplate1 {...formValues} />,
         },
         {
             id: 2,
             name: "商业发票",
             description: "商业发票描述",
-            img: "https://i-aws.czl.net/oracle/img/2024/12/67582e487c917.png",
+            img: "https://i-cf.czl.net/oracle/img/2024/12/67582e487c917.png",
             component: <InvoiceTemplate2 {...formValues} />,
         },
     ];
@@ -87,6 +87,7 @@ const TemplateSelector = () => {
                                                         template.id
                                                     )
                                                 }
+                                                unoptimized
                                             />
                                             {/* {template.component} */}
                                         </div>

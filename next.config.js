@@ -15,7 +15,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'i-aws.czl.net',
+                hostname: 'i-cf.czl.net',
             },
         ],
     },
