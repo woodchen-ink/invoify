@@ -42,7 +42,6 @@ const BillFromSection = () => {
     return (
         <section className="flex flex-col gap-3">
             <Subheading>{_t("form.steps.fromAndTo.billFrom")}:</Subheading>
-
             <FormInput
                 name="sender.companyName"
                 label={_t("form.steps.fromAndTo.companyName")}
@@ -83,7 +82,6 @@ const BillFromSection = () => {
                 label={_t("form.steps.fromAndTo.phone")}
                 placeholder="请输入电话号码"
             />
-
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
             {fields?.map((field, index) => (
                 <FormCustomInput
@@ -93,7 +91,6 @@ const BillFromSection = () => {
                     removeField={removeCustomInput}
                 />
             ))}
-
             <BaseButton
                 tooltipLabel="添加发件人自定义输入"
                 size="sm"
