@@ -89,7 +89,7 @@ const InvoiceActions = () => {
                 disabled={invoicePdfLoading}
               >
                 <RotateCcw />
-                Reset Form
+                重置表单
               </BaseButton>
             </NewInvoiceAlert>
 
