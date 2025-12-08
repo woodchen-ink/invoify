@@ -30,7 +30,8 @@ const BaseNavbar = () => {
                                 width={100}
                                 height={50}
                                 loading="eager"
-                            />
+                                style={{ height: "auto" }}
+                        />
                         </Link>
                         <Link
                             className="text-sm mt-2"
