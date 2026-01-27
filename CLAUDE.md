@@ -158,3 +158,12 @@ This error occurs when client and server Server Action IDs don't match. Common c
 - **Incorrect startup command**: Using `npm start` instead of `node server.js` in standalone mode
 
 **Solution**: Ensure Dockerfile copies all standalone artifacts correctly and uses `node server.js` as entrypoint.
+
+### Normal 404 Logging in Production
+You may see "Failed to find Server Action" errors in logs from the `[...rest]` catch-all route. This is **expected behavior**:
+- Search engine crawlers (Googlebot, Bingbot) probe for common paths
+- Security scanners test for vulnerabilities
+- Browsers automatically request `/favicon.ico` and other resources
+- These requests hit the 404 handler (`[...rest]/page.tsx`) which calls `notFound()`
+
+**This is normal and does not affect functionality**. To reduce log noise, set `NEXT_TELEMETRY_DISABLED=1` or filter 404s in your logging system.
