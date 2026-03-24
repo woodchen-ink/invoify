@@ -69,15 +69,6 @@ const InvoiceExportModal = ({ children }: InvoiceExportModalType) => {
                     >
                         导出为XML
                     </BaseButton>
-
-                    <BaseButton
-                        tooltipLabel="导出为XLSX"
-                        variant="outline"
-                        disabled={invoicePdfLoading}
-                        onClick={() => exportInvoiceAs(ExportTypes.XLSX)}
-                    >
-                        导出为XLSX
-                    </BaseButton>
                 </div>
             </DialogContent>
         </Dialog>

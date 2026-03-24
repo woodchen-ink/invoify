@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Invoify is a web-based invoice generator application built with Next.js 13+ (App Router), TypeScript, React, and Shadcn UI. The application generates professional invoices with PDF export, multi-format export (JSON, CSV, XML, XLSX), email sending, and browser-based storage.
+Invoify is a web-based invoice generator application built with Next.js 13+ (App Router), TypeScript, React, and Shadcn UI. The application generates professional invoices with PDF export, multi-format export (JSON, CSV, XML), email sending, and browser-based storage.
 
 ## Development Commands
 
@@ -69,7 +69,7 @@ NODEMAILER_PW=your_email_password
    - Client submits invoice data to `/api/invoice/generate`
    - Server renders React template to HTML using ReactDOMServer
    - Puppeteer converts HTML to PDF with Tailwind CDN
-5. **Export**: Multiple formats (JSON, CSV, XML, XLSX) handled client-side
+5. **Export**: Multiple formats (JSON, CSV, XML) handled client-side
 
 ### Path Aliasing
 

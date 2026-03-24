@@ -114,36 +114,6 @@ const formatPriceToString = (price: number, currency: string): string => {
 };
 
 /**
- * This method flattens a nested object. It is used for xlsx export
- *
- * @param {Record<string, T>} obj - A nested object to flatten
- * @param {string} parentKey - The parent key
- * @returns {Record<string, T>} A flattened object
- */
-const flattenObject = <T>(
-    obj: Record<string, T>,
-    parentKey = ""
-): Record<string, T> => {
-    const result: Record<string, T> = {};
-
-    for (const key in obj) {
-        if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
-            const flattened = flattenObject(
-                obj[key] as Record<string, T>,
-                parentKey + key + "_"
-            );
-            for (const subKey in flattened) {
-                result[parentKey + subKey] = flattened[subKey];
-            }
-        } else {
-            result[parentKey + key] = obj[key];
-        }
-    }
-
-    return result;
-};
-
-/**
  * A method to validate an email address
  *
  * @param {string} email - Email to validate
@@ -205,7 +175,6 @@ const fileToBuffer = async (file: File) => {
 export {
     formatNumberWithCommas,
     formatPriceToString,
-    flattenObject,
     isValidEmail,
     isDataUrl,
     getInvoiceTemplate,

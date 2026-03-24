@@ -53,6 +53,5 @@ export enum ExportTypes {
     JSON = "JSON",
     CSV = "CSV",
     XML = "XML",
-    XLSX = "XLSX",
     DOCX = "DOCX",
 }

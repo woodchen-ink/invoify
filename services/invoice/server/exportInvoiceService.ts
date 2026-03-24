@@ -6,12 +6,6 @@ import { AsyncParser } from "@json2csv/node";
 // XML2JS
 import { Builder } from "xml2js";
 
-// XLSX
-import * as XLSX from "xlsx";
-
-// Helpers
-import { flattenObject } from "@/lib/helpers";
-
 // Types
 import { ExportTypes } from "@/types";
 
@@ -57,31 +51,6 @@ export async function exportInvoiceService(req: NextRequest) {
                         "Content-Type": "application/xml",
                         "Content-Disposition":
                             "attachment; filename=invoice.xml",
-                    },
-                });
-            case ExportTypes.XLSX:
-                const flattenedData = flattenObject(body);
-
-                // Create a new worksheet and add the data
-                const worksheet = XLSX.utils.json_to_sheet([flattenedData]);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(
-                    workbook,
-                    worksheet,
-                    "invoice-worksheet"
-                );
-                // Generate the XLSX file as a buffer
-                const buffer = XLSX.write(workbook, {
-                    bookType: "xlsx",
-                    type: "buffer",
-                });
-
-                return new NextResponse(buffer, {
-                    headers: {
-                        "Content-Type":
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "Content-Disposition":
-                            "attachment; filename=invoice.xlsx",
                     },
                 });
         }
