@@ -15,7 +15,6 @@ export const BASE_URL = "https://exp-invoify.czl.net";
  * API endpoints
  */
 export const GENERATE_PDF_API = "/api/invoice/generate";
-export const SEND_PDF_API = "/api/invoice/send";
 export const EXPORT_INVOICE_API = "/api/invoice/export";
 
 /**
@@ -39,13 +38,6 @@ export const TAILWIND_CDN =
  * Google
  */
 export const GOOGLE_SC_VERIFICATION = process.env.GOOGLE_SC_VERIFICATION;
-
-/**
- * Nodemailer
- */
-export const NODEMAILER_EMAIL = process.env.NODEMAILER_EMAIL;
-export const NODEMAILER_PW = process.env.NODEMAILER_PW;
-export const NODEMAILER_HOST = process.env.NODEMAILER_HOST;
 
 /**
  * I18N

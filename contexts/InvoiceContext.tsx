@@ -24,7 +24,6 @@ import { exportInvoice } from "@/services/invoice/client/exportInvoice";
 import {
   FORM_DEFAULT_VALUES,
   GENERATE_PDF_API,
-  SEND_PDF_API,
   SHORT_DATE_OPTIONS,
   LOCAL_STORAGE_INVOICE_DRAFT_KEY,
 } from "@/lib/variables";
@@ -46,7 +45,6 @@ const defaultInvoiceContext = {
   previewPdfInTab: () => {},
   saveInvoice: () => {},
   deleteInvoice: (index: number) => {},
-  sendPdfToMail: (email: string): Promise<void> => Promise.resolve(),
   exportInvoiceAs: (exportAs: ExportTypes) => {},
   importInvoice: (file: File) => {},
 };
@@ -72,8 +70,6 @@ export const InvoiceContextProvider = ({
     pdfGenerationSuccess,
     saveInvoiceSuccess,
     modifiedInvoiceSuccess,
-    sendPdfSuccess,
-    sendPdfError,
     importInvoiceError,
   } = useToasts();
 
@@ -165,15 +161,27 @@ export const InvoiceContextProvider = ({
     setInvoicePdfLoading(true);
 
     try {
+      // 服务端把模板渲染成完整 HTML 文档
       const response = await fetch(GENERATE_PDF_API, {
         method: "POST",
         body: JSON.stringify(data),
       });
 
-      const result = await response.blob();
-      setInvoicePdf(result);
+      const html = await response.text();
 
-      if (result.size > 0) {
+      let pdfBlob: Blob;
+      if (window.electronAPI?.isDesktop) {
+        // 桌面壳: 交给主进程用内置 Chromium printToPDF
+        const pdfBytes = await window.electronAPI.generatePdf(html);
+        pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+      } else {
+        // 纯浏览器降级 (开发调试): 仅展示 HTML 预览, 不生成真实 PDF
+        pdfBlob = new Blob([html], { type: "text/html" });
+      }
+
+      setInvoicePdf(pdfBlob);
+
+      if (pdfBlob.size > 0) {
         // Toast
         pdfGenerationSuccess();
       }
@@ -309,39 +317,6 @@ export const InvoiceContextProvider = ({
   };
 
   /**
-   * Send the invoice PDF to the specified email address.
-   *
-   * @param {string} email - The email address to which the Invoice PDF will be sent.
-   * @returns {Promise<void>} A promise that resolves once the email is successfully sent.
-   */
-  const sendPdfToMail = (email: string) => {
-    const fd = new FormData();
-    fd.append("email", email);
-    fd.append("invoicePdf", invoicePdf, "invoice.pdf");
-    fd.append("invoiceNumber", getValues().details.invoiceNumber);
-
-    return fetch(SEND_PDF_API, {
-      method: "POST",
-      body: fd,
-    })
-      .then((res) => {
-        if (res.ok) {
-          // Successful toast msg
-          sendPdfSuccess();
-        } else {
-          // Error toast msg
-          sendPdfError({ email, sendPdfToMail });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-
-        // Error toast msg
-        sendPdfError({ email, sendPdfToMail });
-      });
-  };
-
-  /**
    * Export an invoice in the specified format using the provided form values.
    *
    * This function initiates the export process with the chosen export format and the form data.
@@ -406,7 +381,6 @@ export const InvoiceContextProvider = ({
         previewPdfInTab,
         saveInvoice,
         deleteInvoice,
-        sendPdfToMail,
         exportInvoiceAs,
         importInvoice,
       }}

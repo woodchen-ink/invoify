@@ -1,0 +1,54 @@
+name: Release Desktop
+
+# 推送 v* 格式 tag 时触发，例如 v1.0.0
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: 安装根项目依赖
+        run: npm ci
+
+      - name: 构建 Next standalone 并补全静态资源
+        run: npm run build:standalone
+
+      - name: 安装 Electron 依赖
+        run: npm ci
+        working-directory: desktop
+
+      - name: 打包桌面绿色版
+        run: npm run dist
+        working-directory: desktop
+        env:
+          # 在仓库 Settings → Secrets 里配置 CZL_CLIENT_ID
+          CZL_CLIENT_ID: ${{ secrets.CZL_CLIENT_ID }}
+
+      - name: 列出产物（调试用）
+        run: dir dist-desktop
+        shell: cmd
+
+      - name: 发布 GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # tag 名即版本号，自动生成 Release 标题
+          name: "CZL 发票 ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          files: |
+            dist-desktop/CZL-Invoice-*-portable.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

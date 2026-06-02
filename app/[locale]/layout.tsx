@@ -1,5 +1,6 @@
 // Components
 import { BaseFooter, BaseNavbar } from "@/app/components";
+import LoginGate from "@/app/components/layout/LoginGate";
 // ShadCn
 import { Toaster } from "@/components/ui/toaster";
 // Contexts
@@ -26,9 +27,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
-    title: "免费国际快递物流 PI&CI 运输发票在线生成器 | CZL Express",
+    title: "CZL 发票 | 免费本地发票生成器 | CZL Express",
     description:
-        "CZL Express 提供免费的国际运输发票生成工具。轻松创建专业的物流单据，支持多种语言，适用于国际货运、快递和物流服务。简单快捷地生成标准化运输发票，提高您的业务效率。",
+        "CZL Express 出品的免费本地桌面发票生成工具。无需联网，数据全部存本地，支持多种语言，轻松生成专业 PDF 发票，适用于国际货运、跨境电商和物流服务。",
     icons: [{ rel: "icon", url: Favicon.src }],
     keywords: ROOTKEYWORDS,
     robots: {
@@ -87,15 +88,16 @@ export default async function LocaleLayout(props: {
             >
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <Providers>
-                        <BaseNavbar />
+                        <LoginGate>
+                            <BaseNavbar />
 
-                        <div className="flex flex-col">{children}</div>
+                            <div className="flex flex-col">{children}</div>
 
-                        <BaseFooter />
+                            <BaseFooter />
 
-                        {/* Toast component */}
-                        <Toaster />
-
+                            {/* Toast component */}
+                            <Toaster />
+                        </LoginGate>
                     </Providers>
                 </NextIntlClientProvider>
             </body>

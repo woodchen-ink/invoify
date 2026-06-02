@@ -1,13 +1,7 @@
 // ShadCn
-import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/components/ui/use-toast";
 
 const useToasts = () => {
-    type SendErrorType = {
-        email: string;
-        sendPdfToMail: (email: string) => void;
-    };
-
     const newInvoiceSuccess = () => {
         toast({
             variant: "default",
@@ -41,30 +35,6 @@ const useToasts = () => {
         });
     };
 
-    const sendPdfSuccess = () => {
-        toast({
-            variant: "default",
-            title: "Email sent",
-            description: "您的发票已发送至指定邮箱",
-        });
-    };
-
-    const sendPdfError = ({ email, sendPdfToMail }: SendErrorType) => {
-        toast({
-            variant: "destructive",
-            title: "错误",
-            description: "发送失败。请稍后再试",
-            action: (
-                <ToastAction
-                    onClick={() => sendPdfToMail(email)}
-                    altText="Try again"
-                >
-                    重试
-                </ToastAction>
-            ),
-        });
-    };
-
     const importInvoiceError = () => {
         toast({
             variant: "destructive",
@@ -78,8 +48,6 @@ const useToasts = () => {
         pdfGenerationSuccess,
         saveInvoiceSuccess,
         modifiedInvoiceSuccess,
-        sendPdfSuccess,
-        sendPdfError,
         importInvoiceError,
     };
 };

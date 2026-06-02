@@ -1,6 +1,3 @@
-// Next
-import { NextResponse } from "next/server";
-
 // Utils
 import numberToWords from "number-to-words";
 
@@ -157,26 +154,10 @@ const getInvoiceTemplate = async (templateId: number) => {
     }
 };
 
-/**
- * Convert a file to a buffer. Used for sending invoice as email attachment.
- * @param {File} file - The file to convert to a buffer.
- * @returns {Promise<Buffer>} A promise that resolves to a buffer.
- */
-const fileToBuffer = async (file: File) => {
-    // Convert Blob to ArrayBuffer
-    const arrayBuffer = await new NextResponse(file).arrayBuffer();
-
-    // Convert ArrayBuffer to Buffer
-    const pdfBuffer = Buffer.from(arrayBuffer);
-
-    return pdfBuffer;
-};
-
 export {
     formatNumberWithCommas,
     formatPriceToString,
     isValidEmail,
     isDataUrl,
     getInvoiceTemplate,
-    fileToBuffer,
 };

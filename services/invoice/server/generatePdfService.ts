@@ -1,109 +1,72 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Chromium
-import chromium from "@sparticuz/chromium";
-
 // Helpers
 import { getInvoiceTemplate } from "@/lib/helpers";
 
 // Variables
-import { ENV, TAILWIND_CDN } from "@/lib/variables";
+import { TAILWIND_CDN } from "@/lib/variables";
 
 // Types
 import { InvoiceType } from "@/types";
 
 /**
- * Generate a PDF document of an invoice based on the provided data.
+ * 渲染发票模板为完整 HTML 文档字符串。
  *
- * @async
- * @param {NextRequest} req - The Next.js request object.
- * @throws {Error} If there is an error during the PDF generation process.
- * @returns {Promise<NextResponse>} A promise that resolves to a NextResponse object containing the generated PDF.
+ * 桌面版不再用 Puppeteer 启浏览器, 而是把渲染好的 HTML 交给 Electron 主进程
+ * 的隐藏窗口 printToPDF。本服务只负责: 模板 React -> 静态 HTML -> 内联样式表链接,
+ * 输出一个可独立加载的完整页面。
+ *
+ * @param {NextRequest} req - Next.js 请求对象, body 为发票数据。
+ * @returns {Promise<NextResponse>} 返回 text/html 响应。
  */
 export async function generatePdfService(req: NextRequest) {
     const body: InvoiceType = await req.json();
-    let browser;
-    let page;
 
     try {
         const ReactDOMServer = (await import("react-dom/server")).default;
         const templateId = body.details.pdfTemplate;
         const InvoiceTemplate = await getInvoiceTemplate(templateId);
-        const htmlTemplate = ReactDOMServer.renderToStaticMarkup(
+
+        if (!InvoiceTemplate) {
+            throw new Error(`Invoice template ${templateId} not found`);
+        }
+
+        const bodyMarkup = ReactDOMServer.renderToStaticMarkup(
             InvoiceTemplate(body)
         );
 
-		if (ENV === "production") {
-			const puppeteer = (await import("puppeteer-core")).default;
-			browser = await puppeteer.launch({
-				args: [...chromium.args, "--disable-dev-shm-usage", "--ignore-certificate-errors"],
-				executablePath: await chromium.executablePath(),
-				headless: true,
-			});
-		} else {
-			const puppeteer = (await import("puppeteer")).default;
-			browser = await puppeteer.launch({
-				args: ["--no-sandbox", "--disable-setuid-sandbox"],
-				headless: true,
-			});
-		}
+        // 组装成完整 HTML 文档, 由 Electron printToPDF 渲染
+        const htmlDocument = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="${TAILWIND_CDN}" />
+<style>
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; }
+</style>
+</head>
+<body>${bodyMarkup}</body>
+</html>`;
 
-        if (!browser) {
-            throw new Error("Failed to launch browser");
-        }
-
-        page = await browser.newPage();
-        await page.setContent(await htmlTemplate, {
-            waitUntil: ["networkidle0", "load", "domcontentloaded"],
-            timeout: 30000,
+        return new NextResponse(htmlDocument, {
+            headers: {
+                "Content-Type": "text/html; charset=utf-8",
+                "Cache-Control": "no-cache",
+                Pragma: "no-cache",
+            },
+            status: 200,
         });
-
-        await page.addStyleTag({
-            url: TAILWIND_CDN,
-        });
-
-		const pdf: Uint8Array = await page.pdf({
-			format: "a4",
-			printBackground: true,
-			preferCSSPageSize: true,
-		});
-
-		return new NextResponse(new Blob([pdf], { type: "application/pdf" }), {
-			headers: {
-				"Content-Type": "application/pdf",
-				"Content-Disposition": "attachment; filename=invoice.pdf",
-				"Cache-Control": "no-cache",
-				Pragma: "no-cache",
-			},
-			status: 200,
-		});
-	} catch (error: any) {
-		console.error("PDF Generation Error:", error);
-		return new NextResponse(
-			JSON.stringify({ error: "Failed to generate PDF" }),
-			{
-				status: 500,
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
-	} finally {
-		if (page) {
-			try {
-				await page.close();
-			} catch (e) {
-				console.error("Error closing page:", e);
-			}
-		}
-		if (browser) {
-			try {
-				const pages = await browser.pages();
-				await Promise.all(pages.map((p) => p.close()));
-				await browser.close();
-			} catch (e) {
-				console.error("Error closing browser:", e);
-			}
-		}
-	}
+    } catch (error: any) {
+        console.error("PDF HTML Generation Error:", error);
+        return new NextResponse(
+            JSON.stringify({ error: "Failed to render invoice HTML" }),
+            {
+                status: 500,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+    }
 }

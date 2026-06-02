@@ -4,7 +4,7 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 // Components
-import { BaseButton, SendPdfToEmailModal, Subheading } from "@/app/components";
+import { BaseButton, Subheading } from "@/app/components";
 
 // Contexts
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
@@ -14,7 +14,6 @@ import {
     BookmarkIcon,
     DownloadCloudIcon,
     Eye,
-    Mail,
     MoveLeft,
     Printer,
 } from "lucide-react";
@@ -27,7 +26,6 @@ export default function FinalPdf() {
         downloadPdf,
         printPdf,
         saveInvoice,
-        sendPdfToMail,
     } = useInvoiceContext();
 
     return (
@@ -76,7 +74,7 @@ export default function FinalPdf() {
                 </BaseButton>
 
                 <BaseButton
-                    tooltipLabel="保存发票到网站"
+                    tooltipLabel="保存发票到本地"
                     onClick={saveInvoice}
                     size="sm"
                     variant={"outline"}
@@ -84,17 +82,6 @@ export default function FinalPdf() {
                     <BookmarkIcon className="w-5 h-5" />
                     保存
                 </BaseButton>
-
-                <SendPdfToEmailModal sendPdfToMail={sendPdfToMail}>
-                    <BaseButton
-                        tooltipLabel="发送发票PDF到邮箱"
-                        size="sm"
-                        variant={"outline"}
-                    >
-                        <Mail className="w-5 h-5" />
-                        发送到邮箱
-                    </BaseButton>
-                </SendPdfToEmailModal>
             </div>
             <AspectRatio ratio={1 / 1.4}>
                 <iframe

@@ -4,111 +4,85 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Invoify is a web-based invoice generator application built with Next.js 13+ (App Router), TypeScript, React, and Shadcn UI. The application generates professional invoices with PDF export, multi-format export (JSON, CSV, XML), email sending, and browser-based storage.
+CZL 发票 (CZL Invoice) 是本地桌面发票生成器，基于 **Electron + Next.js 15 standalone** 架构。用户解压即用，双击启动，数据全部存本地 localStorage，不需要服务器部署。
+
+已移除：邮件发送、Puppeteer、Docker 部署、Nodemailer。
 
 ## Development Commands
 
-### Basic Commands
-- `npm install` - Install all dependencies
-- `npm run dev` - Start development server at http://localhost:3000
-- `npm run build` - Build production bundle
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run analyze` - Build with bundle analyzer (sets ANALYZE=true)
+- `npm install` - 安装根项目依赖
+- `npm run dev` - 启动 Next.js 开发服务（http://localhost:3000，无 Electron 壳）
+- `npm run build` - 仅构建 Next standalone
+- `npm run build:standalone` - 构建 + 补全 standalone 静态资源（桌面打包前必跑）
+- `npm run desktop:dev` - 构建 standalone 后用 Electron 本地运行
+- `npm run desktop:dist` - 构建并打包成免安装绿色 exe（输出到 `dist-desktop/`）
+- `npm run lint` - ESLint
 
-### Environment Setup
-Create `.env.local` for email functionality:
-```env
-NODEMAILER_EMAIL=your_email@example.com
-NODEMAILER_PW=your_email_password
-```
+## Architecture
 
-## Project Architecture
+### 运行时
+
+1. 用户双击 exe → Electron 主进程启动
+2. `desktop/main.js` fork `.next/standalone/server.js`，在 `localhost:38472` 起 Next 服务
+3. Electron 窗口加载 `http://localhost:38472/`，启动即最大化
+4. PDF 生成：前端经 preload 桥（`window.electronAPI.generatePdf`）把 HTML 交主进程，主进程用隐藏 BrowserWindow printToPDF（复用 Electron 内置 Chromium）
+5. OAuth 登录：主进程开系统浏览器打开 CZL Connect 授权页，自定义协议 `czlinvoice://` 接收回调，PKCE 交换 token
+
+### 关键约束
+
+- standalone server 必须用 `HOSTNAME=localhost`（不能 `127.0.0.1`）：Next i18n 中间件重定向固定用 localhost，不一致会触发自代理 EADDRINUSE
+- `output: "standalone"` 在 next.config.js 保留，是桌面壳 fork server.js 的前提
+- `scripts/copy-standalone-assets.js` 在 `next build` 后把 `.next/static` 与 `public` 拷入 standalone，否则桌面版缺 JS/CSS
+- `ELECTRON_RUN_AS_NODE=1` 会导致 Electron 以纯 Node 模式运行（丢失 GUI API），本地调试时需清除该环境变量
+
+### OAuth 设计
+
+- 协议：CZL Connect OAuth2 PKCE（公共客户端，无 secret）
+- 自定义协议 `czlinvoice://oauth/callback` 接收授权回调
+- 单实例锁（`app.requestSingleInstanceLock`），第二个实例把协议 URL 转发给第一个实例
+- client_id 通过环境变量 `CZL_CLIENT_ID` 配置，缺省值 `czl-invoice`
+- token 存 localStorage，含 expiresAt 时间戳；启动时若即将过期自动刷新
+
+### 登录门槛
+
+- 未登录用户看到 `LoginGate` 组件，无法访问发票功能
+- `AuthContext` 管理登录态；`Providers.tsx` 在最外层包裹 `AuthProvider`
+- Navbar 右侧显示用户头像 / 昵称，提供退出入口
 
 ### Directory Structure
 
-- **`app/`** - Next.js 13 App Router structure
-  - **`[locale]/`** - Internationalized routes (dynamic locale segment)
-  - **`api/invoice/`** - API routes for PDF generation, export, and email
-  - **`components/`** - Application-specific components
-- **`components/ui/`** - Shadcn UI components (reusable UI primitives)
-- **`contexts/`** - React Context providers for global state
-  - `InvoiceContext.tsx` - Main invoice operations (PDF generation, save/load, export)
-  - `ChargesContext.tsx` - Tax, discount, shipping calculations
-  - `SignatureContext.tsx` - Signature management
-  - `TranslationContext.tsx` - i18n helper
-- **`lib/`** - Shared utilities and schemas
-  - `schemas.ts` - Zod validation schemas for invoice data
-  - `helpers.ts` - Utility functions
-  - `variables.ts` - Constants and configuration
-- **`services/invoice/`** - Business logic layer
-  - **`client/`** - Client-side services (export functionality)
-  - **`server/`** - Server-side services (PDF generation, email sending)
-- **`i18n/`** - Internationalization setup
-  - **`locales/`** - Translation files (en, zh, zh-CN, ja, pl, pt-BR, etc.)
-  - Uses `next-intl` for i18n with middleware-based routing
+- **`app/`** - Next.js App Router
+  - **`[locale]/`** - i18n 路由（zh / en）
+  - **`api/invoice/generate`** - 返回渲染好的 HTML 文档（不再用 Puppeteer）
+  - **`api/invoice/export`** - 多格式导出
+- **`desktop/`** - Electron 壳
+  - `main.js` - 主进程（fork Next 服务、开窗、printToPDF IPC、OAuth PKCE）
+  - `preload.js` - contextBridge 桥接（`window.electronAPI`）
+  - `package.json` - electron + electron-builder 配置
+  - `build/icon.ico` - 应用图标（256x256 PNG 封装 ICO）
+- **`scripts/`** - 构建辅助脚本
+- **`contexts/InvoiceContext.tsx`** - PDF 生成走 `window.electronAPI.generatePdf`
+- **`contexts/AuthContext.tsx`** - OAuth 登录态管理（token 存取、自动刷新）
+- **`app/components/layout/LoginGate.tsx`** - 未登录拦截 UI
+- **`types/electron.d.ts`** - `window.electronAPI` 类型声明
+- **`services/invoice/server/generatePdfService.ts`** - 渲染模板为完整 HTML
 
 ### Key Technologies
 
-- **Next.js 15** with App Router (standalone output for Docker)
-- **TypeScript** with strict mode
-- **React Hook Form** + **Zod** for form management and validation
-- **Shadcn UI** + **Tailwind CSS** for UI components
-- **Puppeteer** for PDF generation (puppeteer-core in production with @sparticuz/chromium)
-- **Nodemailer** for email sending
-- **next-intl** for internationalization
+- **Electron 33** + **Next.js 15** standalone
+- **React Hook Form** + **Zod**
+- **Shadcn UI** + **Tailwind CSS**
+- **next-intl** for i18n
+- **CZL Connect OAuth2 PKCE** for auth
 
 ### Core Data Flow
 
-1. **Form Management**: React Hook Form with Zod validation (`lib/schemas.ts`)
-2. **State Management**: Context-based (InvoiceContext, ChargesContext, SignatureContext)
-3. **Local Storage**:
-   - Draft auto-save with debounce
-   - Saved invoices stored as JSON array
-4. **PDF Generation**:
-   - Client submits invoice data to `/api/invoice/generate`
-   - Server renders React template to HTML using ReactDOMServer
-   - Puppeteer converts HTML to PDF with Tailwind CDN
-5. **Export**: Multiple formats (JSON, CSV, XML) handled client-side
-
-### Path Aliasing
-
-Uses `@/*` to reference the root directory (configured in tsconfig.json):
-```typescript
-import { InvoiceType } from "@/types";
-import { FORM_DEFAULT_VALUES } from "@/lib/variables";
-```
-
-### Template System
-
-- Multiple invoice templates available (stored in `app/[locale]/template/`)
-- Template selection via `pdfTemplate` field in invoice details
-- `getInvoiceTemplate()` helper dynamically loads templates
-
-## Important Notes
-
-### PDF Generation
-- Uses different Puppeteer implementations based on environment:
-  - **Production**: `puppeteer-core` + `@sparticuz/chromium` (serverless-optimized)
-  - **Development**: Full `puppeteer` with bundled Chromium
-- Puppeteer requires system dependencies for production deployments (see README deployment notes)
-- API routes have `maxDuration: 60` for PDF generation timeout
-
-### Internationalization
-- Middleware handles locale routing automatically
-- All routes under `[locale]` are internationalized
-- API routes excluded from i18n middleware
-- Template translations stored in `i18n/locales/*.json`
-
-### Build Configuration
-- TypeScript and ESLint errors ignored during builds (`ignoreBuildErrors: true`)
-- Bundle analyzer available via `ANALYZE=true` environment variable
-- Webpack configured to ignore `.map` files
-- Remote image patterns configured for `i-cf.czl.net`
-
-### Browser Compatibility
-- Known issues with Mozilla Firefox (see GitHub Issue #11)
-- Application primarily tested for Chromium-based browsers
+1. 用户填表 → React Hook Form with Zod
+2. 提交 → `/api/invoice/generate` 返回 HTML
+3. 前端经 `window.electronAPI.generatePdf(html)` 发 IPC
+4. 主进程隐藏窗口 printToPDF → 返回 PDF Uint8Array
+5. 前端转 Blob → 下载/预览/打印
+6. 数据持久化：localStorage（草稿 + 已保存发票 + auth token）
 
 ## Common Development Patterns
 
@@ -117,53 +91,19 @@ import { FORM_DEFAULT_VALUES } from "@/lib/variables";
 2. Update TypeScript types in [types.ts](types.ts)
 3. Update form components in `app/components/invoice/form/`
 4. Update invoice templates in `app/[locale]/template/`
-5. Update all locale translation files in `i18n/locales/`
+5. Update locale files in `i18n/locales/`
 
 ### Adding New Invoice Templates
 1. Create template component in `app/[locale]/template/`
 2. Update `getInvoiceTemplate()` in [lib/helpers.ts](lib/helpers.ts)
-3. Add template selector UI in [app/components/invoice/form/TemplateSelector.tsx](app/components/invoice/form/TemplateSelector.tsx)
+3. Add template selector UI in `app/components/invoice/form/TemplateSelector.tsx`
 
-### Adding New Export Formats
-1. Update `ExportTypes` enum in [types.ts](types.ts)
-2. Implement export logic in [services/invoice/client/exportInvoice.ts](services/invoice/client/exportInvoice.ts)
-3. Handle new format in export API route if server-side processing needed
-
-## Docker Deployment
-
-### Standalone Build Configuration
-The project uses Next.js standalone mode (`output: "standalone"` in next.config.js) for optimized Docker deployments.
-
-### Important: Dockerfile Structure
-The Dockerfile MUST correctly copy standalone build artifacts:
-1. `/app/.next/standalone` → root directory (contains server.js)
-2. `/app/.next/static` → `.next/static` (client-side assets)
-3. `/app/public` → `public` (static files)
-
-**Critical**: Use `CMD ["node", "server.js"]` instead of `npm start` for standalone mode.
-
-### System Dependencies
-Puppeteer requires these system packages in the container:
-```bash
-apt-get update
-apt-get install -y libnss3 libglib2.0-0 libatk1.0-0 libcups2 libdbus-1-3 \
-  libexpat1 libfontconfig1 libgbm1 libgtk-3-0 libpango-1.0-0 libx11-xcb1 \
-  libxcomposite1 libxdamage1 libxkbcommon0 libxrandr2 libasound2
+### Packaging（免安装绿色版）
 ```
+npm run desktop:dist
+```
+输出在 `dist-desktop/`，包含 `win-unpacked/`（解压即用目录）和单文件 portable exe。
 
-### Troubleshooting "Failed to find Server Action" Error
-This error occurs when client and server Server Action IDs don't match. Common causes:
-- **Incomplete standalone copy**: Missing `.next/standalone` or `.next/static` directories
-- **Cache issues**: Old client code cached with new server deployment
-- **Incorrect startup command**: Using `npm start` instead of `node server.js` in standalone mode
-
-**Solution**: Ensure Dockerfile copies all standalone artifacts correctly and uses `node server.js` as entrypoint.
-
-### Normal 404 Logging in Production
-You may see "Failed to find Server Action" errors in logs from the `[...rest]` catch-all route. This is **expected behavior**:
-- Search engine crawlers (Googlebot, Bingbot) probe for common paths
-- Security scanners test for vulnerabilities
-- Browsers automatically request `/favicon.ico` and other resources
-- These requests hit the 404 handler (`[...rest]/page.tsx`) which calls `notFound()`
-
-**This is normal and does not affect functionality**. To reduce log noise, set `NEXT_TELEMETRY_DISABLED=1` or filter 404s in your logging system.
+### OAuth client_id 配置
+在 `desktop/main.js` 顶部通过 `CZL_CLIENT_ID` 环境变量注入，或在 CZL Connect 管理后台注册应用后替换默认值 `czl-invoice`。
+redirect_uri 固定为 `czlinvoice://oauth/callback`，需在 CZL Connect 后台配置白名单。

@@ -1,10 +1,7 @@
-name: Docker
+name: Docker (disabled - project migrated to Electron desktop)
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore: ['**.yml']
+  workflow_dispatch: # 仅手动触发，不再自动跑
 
 env:
   REGISTRY: ghcr.io
