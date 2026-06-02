@@ -1,6 +1,5 @@
 name: Release Desktop
 
-# 推送 v* 格式 tag 时触发，例如 v1.0.0
 on:
   push:
     tags:
@@ -34,21 +33,18 @@ jobs:
         run: npm run dist
         working-directory: desktop
         env:
-          # 在仓库 Settings → Secrets 里配置 CZL_CLIENT_ID
           CZL_CLIENT_ID: ${{ secrets.CZL_CLIENT_ID }}
 
-      - name: 列出产物（调试用）
-        run: dir dist-desktop
-        shell: cmd
+      - name: 压缩 win-unpacked 为 zip
+        run: Compress-Archive -Path dist-desktop\win-unpacked\* -DestinationPath dist-desktop\CZL-Invoice-${{ github.ref_name }}-win-portable.zip
+        shell: pwsh
 
       - name: 发布 GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          # tag 名即版本号，自动生成 Release 标题
           name: "CZL 发票 ${{ github.ref_name }}"
           draft: false
           prerelease: false
-          files: |
-            dist-desktop/CZL-Invoice-*-portable.exe
+          files: dist-desktop/CZL-Invoice-*-win-portable.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
