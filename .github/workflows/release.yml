@@ -29,15 +29,12 @@ jobs:
         run: npm ci
         working-directory: desktop
 
-      - name: 打包桌面绿色版
+      - name: 打包单文件 portable exe
         run: npm run dist
         working-directory: desktop
         env:
           CZL_CLIENT_ID: ${{ secrets.CZL_CLIENT_ID }}
-
-      - name: 压缩 win-unpacked 为 zip
-        run: Compress-Archive -Path dist-desktop\win-unpacked\* -DestinationPath dist-desktop\CZL-Invoice-${{ github.ref_name }}-win-portable.zip
-        shell: pwsh
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: 发布 GitHub Release
         uses: softprops/action-gh-release@v2
@@ -45,6 +42,6 @@ jobs:
           name: "CZL 发票 ${{ github.ref_name }}"
           draft: false
           prerelease: false
-          files: dist-desktop/CZL-Invoice-*-win-portable.zip
+          files: dist-desktop/CZL-Invoice-*-portable.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

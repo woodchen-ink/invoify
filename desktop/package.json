@@ -36,9 +36,12 @@
       "icon": "build/icon.ico",
       "target": [
         {
-          "target": "dir"
+          "target": "portable"
         }
       ]
+    },
+    "portable": {
+      "artifactName": "CZL-Invoice-${version}-portable.exe"
     }
   }
 }
