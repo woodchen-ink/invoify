@@ -1,13 +1,13 @@
 {
   "name": "czl-invoice-desktop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "CZL 发票 - 本地发票生成器 (by CZL Express)",
   "author": "CZL Express",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "dist": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win portable --publish never"
+    "start": "cross-env ELECTRON_RUN_AS_NODE= electron .",
+    "dist": "cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win nsis --publish never"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
@@ -36,12 +36,21 @@
       "icon": "build/icon.ico",
       "target": [
         {
-          "target": "portable"
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
         }
       ]
     },
-    "portable": {
-      "artifactName": "CZL-Invoice-${version}-portable.exe"
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CZL 发票",
+      "artifactName": "CZL-Invoice-Setup-${version}.exe"
     }
   }
 }

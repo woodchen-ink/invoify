@@ -3,7 +3,8 @@
 //        3) printToPDF IPC (复用 Electron 内置 Chromium);
 //        4) CZL Connect OAuth2 PKCE 授权流程 (系统浏览器打开授权页, 自定义协议接收回调)。
 
-const { app, BrowserWindow, ipcMain, shell, protocol, net } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
+const fs = require("fs");
 const path = require("path");
 const http = require("http");
 const https = require("https");
@@ -100,6 +101,10 @@ function resolveServerEntry() {
 
 function startNextServer() {
   const serverEntry = resolveServerEntry();
+  if (!fs.existsSync(serverEntry)) {
+    throw new Error(`Next standalone server entry not found: ${serverEntry}`);
+  }
+
   const cwd = path.dirname(serverEntry);
   nextServer = fork(serverEntry, [], {
     cwd,
@@ -261,8 +266,16 @@ const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) { app.quit(); }
 
 app.whenReady().then(async () => {
-  startNextServer();
-  try { await waitForServer(); } catch (err) { console.error(err); }
+  try {
+    startNextServer();
+    await waitForServer();
+  } catch (err) {
+    console.error(err);
+    dialog.showErrorBox("CZL 发票启动失败", err instanceof Error ? err.message : String(err));
+    app.quit();
+    return;
+  }
+
   createMainWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow();

@@ -29,7 +29,7 @@ jobs:
         run: npm ci
         working-directory: desktop
 
-      - name: 打包单文件 portable exe
+      - name: 打包 Windows 安装包
         run: npm run dist
         working-directory: desktop
         env:
@@ -39,8 +39,12 @@ jobs:
       - name: 清理非 exe 发行包
         shell: pwsh
         run: |
-          Remove-Item -Path dist-desktop\*.zip -Force -ErrorAction SilentlyContinue
-          Get-ChildItem -Path dist-desktop -Filter "*.exe" -File | Select-Object -ExpandProperty FullName
+          $installers = Get-ChildItem -Path dist-desktop -Filter "CZL-Invoice-Setup-*.exe" -File
+          if (-not $installers) {
+            throw "未找到 Windows 安装包 exe"
+          }
+          Get-ChildItem -Path dist-desktop -File | Where-Object { $_.FullName -notin $installers.FullName } | Remove-Item -Force
+          $installers | Select-Object -ExpandProperty FullName
 
       - name: 发布 GitHub Release
         uses: softprops/action-gh-release@v2
@@ -48,6 +52,6 @@ jobs:
           name: "CZL 发票 ${{ github.ref_name }}"
           draft: false
           prerelease: false
-          files: dist-desktop/CZL-Invoice-*-portable.exe
+          files: dist-desktop/CZL-Invoice-Setup-*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

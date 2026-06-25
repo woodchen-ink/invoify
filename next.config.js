@@ -1,3 +1,4 @@
+const path = require("path");
 const withNextIntl = require("next-intl/plugin")("./i18n/request.ts");
 
 /** @type {import('next').NextConfig} */
@@ -18,6 +19,7 @@ const nextConfig = {
         ],
     },
     output: "standalone",
+    outputFileTracingRoot: path.join(__dirname),
     // 忽略构建错误
     typescript: {
         ignoreBuildErrors: true,

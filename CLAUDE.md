@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-CZL 发票 (CZL Invoice) 是本地桌面发票生成器，基于 **Electron + Next.js 15 standalone** 架构。用户解压即用，双击启动，数据全部存本地 localStorage，不需要服务器部署。
+CZL 发票 (CZL Invoice) 是本地桌面发票生成器，基于 **Electron + Next.js 15 standalone** 架构。Windows 版通过 NSIS 安装包发布，数据全部存本地 localStorage，不需要服务器部署。
 
 已移除：邮件发送、Puppeteer、Docker 部署、Nodemailer。
 
@@ -15,7 +15,7 @@ CZL 发票 (CZL Invoice) 是本地桌面发票生成器，基于 **Electron + Ne
 - `npm run build` - 仅构建 Next standalone
 - `npm run build:standalone` - 构建 + 补全 standalone 静态资源（桌面打包前必跑）
 - `npm run desktop:dev` - 构建 standalone 后用 Electron 本地运行
-- `npm run desktop:dist` - 构建并打包成免安装绿色 exe（输出到 `dist-desktop/`）
+- `npm run desktop:dist` - 构建并打包成 Windows 安装包（输出到 `dist-desktop/`）
 - `npm run lint` - ESLint
 
 ## Architecture
@@ -98,11 +98,11 @@ CZL 发票 (CZL Invoice) 是本地桌面发票生成器，基于 **Electron + Ne
 2. Update `getInvoiceTemplate()` in [lib/helpers.ts](lib/helpers.ts)
 3. Add template selector UI in `app/components/invoice/form/TemplateSelector.tsx`
 
-### Packaging（免安装绿色版）
+### Packaging（Windows 安装版）
 ```
 npm run desktop:dist
 ```
-输出在 `dist-desktop/`，包含 `win-unpacked/`（本地解压目录）和单文件 portable exe；GitHub Release 只发布 portable exe，不发布 zip 包。
+输出在 `dist-desktop/`，包含 `win-unpacked/`（本地解包目录）和 `CZL-Invoice-Setup-*.exe` 安装包；GitHub Release 只发布安装包 exe，不发布 zip 包。
 
 ### OAuth client_id 配置
 在 `desktop/main.js` 顶部通过 `CZL_CLIENT_ID` 环境变量注入，或在 CZL Connect 管理后台注册应用后替换默认值 `czl-invoice`。
