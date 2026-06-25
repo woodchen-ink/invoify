@@ -36,6 +36,12 @@ jobs:
           CZL_CLIENT_ID: ${{ secrets.CZL_CLIENT_ID }}
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
+      - name: 清理非 exe 发行包
+        shell: pwsh
+        run: |
+          Remove-Item -Path dist-desktop\*.zip -Force -ErrorAction SilentlyContinue
+          Get-ChildItem -Path dist-desktop -Filter "*.exe" -File | Select-Object -ExpandProperty FullName
+
       - name: 发布 GitHub Release
         uses: softprops/action-gh-release@v2
         with:

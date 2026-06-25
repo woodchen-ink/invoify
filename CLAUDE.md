@@ -102,7 +102,7 @@ CZL 发票 (CZL Invoice) 是本地桌面发票生成器，基于 **Electron + Ne
 ```
 npm run desktop:dist
 ```
-输出在 `dist-desktop/`，包含 `win-unpacked/`（解压即用目录）和单文件 portable exe。
+输出在 `dist-desktop/`，包含 `win-unpacked/`（本地解压目录）和单文件 portable exe；GitHub Release 只发布 portable exe，不发布 zip 包。
 
 ### OAuth client_id 配置
 在 `desktop/main.js` 顶部通过 `CZL_CLIENT_ID` 环境变量注入，或在 CZL Connect 管理后台注册应用后替换默认值 `czl-invoice`。
